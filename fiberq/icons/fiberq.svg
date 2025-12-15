@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 128 128" role="img" aria-label="FiberQ icon (modern dark)">
+  <defs>
+    <!-- Soft shadow -->
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+
+    <!-- Capsule body gradients -->
+    <linearGradient id="capsuleFillDark" x1="38" y1="44" x2="90" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2A2F36"/>
+      <stop offset="1" stop-color="#0B0D10"/>
+    </linearGradient>
+    <linearGradient id="capsuleStrokeDark" x1="40" y1="44" x2="88" y2="112" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3B4250"/>
+      <stop offset="1" stop-color="#0F1319"/>
+    </linearGradient>
+
+    <!-- Stem gradient -->
+    <linearGradient id="stemDark" x1="0" y1="16" x2="0" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4A5362"/>
+      <stop offset="1" stop-color="#141A22"/>
+    </linearGradient>
+
+    <!-- 3D node (radial) -->
+    <radialGradient id="nodeDark" cx="35%" cy="30%" r="70%">
+      <stop offset="0" stop-color="#7B86A0"/>
+      <stop offset="0.45" stop-color="#2B3340"/>
+      <stop offset="1" stop-color="#0B0D10"/>
+    </radialGradient>
+    <radialGradient id="nodeHighlight" cx="30%" cy="25%" r="60%">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- Capsule body -->
+    <path d="M46 50H82V88A18 18 0 0 1 64 106A18 18 0 0 1 46 88V50Z"
+          fill="url(#capsuleFillDark)"
+          stroke="url(#capsuleStrokeDark)"
+          stroke-width="4.5"
+          stroke-linejoin="round"/>
+
+    <!-- Capsule highlight -->
+    <path d="M50 54H60V98A14 14 0 0 1 50 84V54Z"
+          fill="#FFFFFF" opacity="0.07"/>
+
+    <!-- Stems (thin, modern) -->
+    <g fill="none" stroke="url(#stemDark)" stroke-width="3.2" stroke-linecap="round">
+      <path d="M64 50V16"/>
+      <path d="M46 50V30"/>
+      <path d="M82 50V30"/>
+      <path d="M56 50V38"/>
+      <path d="M72 50V38"/>
+    </g>
+
+    <!-- Nodes -->
+    <g>
+      <circle cx="64" cy="12" r="8.5" fill="url(#nodeDark)"/>
+      <circle cx="46" cy="26" r="7.8" fill="url(#nodeDark)"/>
+      <circle cx="82" cy="26" r="7.8" fill="url(#nodeDark)"/>
+      <circle cx="56" cy="34" r="6.2" fill="url(#nodeDark)"/>
+      <circle cx="72" cy="34" r="6.2" fill="url(#nodeDark)"/>
+
+      <!-- Specular highlights -->
+      <circle cx="61.5" cy="10.5" r="5.5" fill="url(#nodeHighlight)"/>
+      <circle cx="43.8" cy="24.8" r="4.8" fill="url(#nodeHighlight)"/>
+      <circle cx="79.8" cy="24.8" r="4.8" fill="url(#nodeHighlight)"/>
+      <circle cx="54.2" cy="32.8" r="3.8" fill="url(#nodeHighlight)"/>
+      <circle cx="70.2" cy="32.8" r="3.8" fill="url(#nodeHighlight)"/>
+    </g>
+  </g>
+</svg>

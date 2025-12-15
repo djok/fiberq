@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  
+  <polyline points="4,16 10,10 16,12 20,6" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <line x1="5" y1="5" x2="9" y2="9" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="3" y1="5" x2="7" y2="5" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="5" y1="3" x2="5" y2="7" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="2.5" y1="2.5" x2="3.5" y2="3.5" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  <line x1="6.5" y1="6.5" x2="7.5" y2="7.5" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<g id="nodes" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8"><circle cx="4.0" cy="16.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="10.0" cy="10.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="16.0" cy="12.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="20.0" cy="6.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="5.0" cy="5.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="9.0" cy="9.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="3.0" cy="5.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="7.0" cy="5.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="5.0" cy="3.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="5.0" cy="7.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="2.5" cy="2.5" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="3.5" cy="3.5" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="6.5" cy="6.5" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="7.5" cy="7.5" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /></g></svg>

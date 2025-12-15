@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  
+  <path d="M6 3h8l4 4v14H6z" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  <polyline points="14,3 14,7 18,7" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <path d="M9 10 L15 16 L13.5 16 L13 18 L12 15 L10.5 15 Z" stroke="#334155" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+<g id="nodes" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8"><circle cx="14.0" cy="3.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="14.0" cy="7.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /><circle cx="18.0" cy="7.0" r="1.08" fill="#3B82F6" stroke="#ffffff" stroke-width="0.8" /></g></svg>

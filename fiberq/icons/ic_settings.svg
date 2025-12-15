@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="24" height="24" viewBox="0 0 24 24">
+  <!-- FiberQ-style settings icon (gear), matched to existing stroke/color -->
+  <g fill="none"
+     stroke="#334155"
+     stroke-width="1.6"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+
+    <!-- Inner gear circle -->
+    <circle cx="12" cy="12" r="4.5" />
+
+    <!-- Cardinal teeth -->
+    <path d="M12 3.5 L12 6" />
+    <path d="M12 18 L12 20.5" />
+    <path d="M3.5 12 L6 12" />
+    <path d="M18 12 L20.5 12" />
+
+    <!-- Diagonal teeth -->
+    <path d="M7.0 6.5 L8.6 8.1" />
+    <path d="M15.4 15.4 L17.0 17.0" />
+    <path d="M7.0 17.0 L8.6 15.4" />
+    <path d="M15.4 8.1 L17.0 6.5" />
+
+  </g>
+</svg>
