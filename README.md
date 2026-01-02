@@ -3,6 +3,9 @@ fiberq
 Open-Source Fiber Network Design Plugin for QGIS  
 Contact: vukovicvl@fiberq.net
 
+Download User Guide:
+https://www.fiberq.net/documentation/
+
 ## Community & Feedback
 
 - 💡 **Feature requests & voting (Discussions → Ideas):** https://github.com/vukovicvl/fiberq/discussions/categories/ideas
