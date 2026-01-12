@@ -1,5 +1,17 @@
 fiberq
 
+Info / Roadmap
+
+I’m currently refactoring main_plugin.py and related folders to improve the project structure—moving classes into smaller, modular components.
+
+After the refactor is complete, I’ll be adding:
+
+The ability to attach devices to any map element (e.g., splitters, routers, etc.)
+
+A Fiber Splicing Manager
+
+An Optical Fiber Diagram generator/viewer
+
 Open-Source Fiber Network Design Plugin for QGIS  
 Contact: vukovicvl@fiberq.net
 
