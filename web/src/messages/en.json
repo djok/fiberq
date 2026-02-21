@@ -1,5 +1,6 @@
 {
   "nav": {
+    "navigation": "Navigation",
     "dashboard": "Dashboard",
     "projects": "Projects",
     "users": "User Management",
