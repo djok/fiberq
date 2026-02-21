@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 1 of 4 (Auth Foundation & App Shell)
-Plan: 1 of 3 in current phase
-Status: Plan 01-01 complete -- Next.js + Auth.js + Zitadel foundation built
-Last activity: 2026-02-21 -- Plan 01-01 executed (9 min)
+Plan: 2 of 3 in current phase
+Status: Plan 01-02 complete -- App shell with sidebar, theming, and i18n
+Last activity: 2026-02-21 -- Plan 01-02 executed (5 min)
 
-Progress: [██░░░░░░░░] 13%
+Progress: [███░░░░░░░] 25%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 9 min
-- Total execution time: 0.15 hours
+- Total plans completed: 2
+- Average duration: 7 min
+- Total execution time: 0.23 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 1/3 | 9 min | 9 min |
+| 01 | 2/3 | 14 min | 7 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (9 min)
-- Trend: -
+- Last 5 plans: 01-01 (9 min), 01-02 (5 min)
+- Trend: improving
 
 *Updated after each plan completion*
 
@@ -52,6 +52,10 @@ Recent decisions affecting current work:
 - [01-01]: Green/teal oklch palette with 0.375rem radius for compact data-dense feel
 - [01-01]: Fixed root .gitignore lib/ -> /lib/ to avoid ignoring web/src/lib/
 - [01-01]: 4 frontend roles (added project_manager) ahead of backend extension in Phase 2
+- [01-02]: Collapsible sidebar with collapsible="icon" variant for tablet/desktop, Sheet on mobile
+- [01-02]: Providers wrapper: SessionProvider > NextIntlClientProvider > ThemeProvider
+- [01-02]: LanguageSwitcher as simple toggle button (not dropdown) -- only 2 locales
+- [01-02]: Fixed --sidebar-background to --sidebar to match shadcn/ui theme mapping
 
 ### Pending Todos
 
@@ -66,5 +70,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 01-01-PLAN.md (Next.js + Auth.js + Zitadel foundation)
-Resume file: .planning/phases/01-auth-foundation-app-shell/01-02-PLAN.md
+Stopped at: Completed 01-02-PLAN.md (App shell with sidebar, theming, i18n)
+Resume file: .planning/phases/01-auth-foundation-app-shell/01-03-PLAN.md
