@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: fiberq/fiberq-api:${FIBERQ_API_VERSION:-latest}
+    image: djok/fiberq-api:${FIBERQ_API_VERSION:-latest}
     container_name: fiberq-api
     depends_on:
       postgis:
@@ -48,14 +48,23 @@ services:
     container_name: fiberq-nginx
     ports:
       - "${HTTP_PORT:-80}:80"
-      - "${HTTPS_PORT:-443}:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/ssl:/etc/nginx/ssl:ro
       - photos:/app/storage/photos:ro
     depends_on:
       api:
         condition: service_healthy
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: fiberq-tunnel
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?CLOUDFLARE_TUNNEL_TOKEN is required}
+    depends_on:
+      nginx:
+        condition: service_started
     restart: unless-stopped
 
   pgadmin:
