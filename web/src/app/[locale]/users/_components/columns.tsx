@@ -1,9 +1,10 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { UserActions } from "./user-actions";
 import type { UserRow } from "@/types/user";
 
 type Translations = {
@@ -123,9 +124,9 @@ export function getColumns(
     {
       id: "actions",
       cell: ({ row }) => (
-        <Button variant="ghost" size="icon-xs" aria-label={t.actions}>
-          <MoreHorizontal className="size-4" />
-        </Button>
+        <div onClick={(e) => e.stopPropagation()}>
+          <UserActions user={row.original} />
+        </div>
       ),
     },
   ];
