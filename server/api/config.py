@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     # Kanidm OIDC
     kanidm_url: str = ""
     kanidm_client_id: str = ""
+    kanidm_api_token: str = ""
     kanidm_verify_tls: bool = True
 
     # API
