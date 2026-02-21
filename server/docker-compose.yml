@@ -36,12 +36,37 @@ services:
       STORAGE_PHOTOS_DIR: /app/storage/photos
       STORAGE_GPKG_DIR: /app/storage/gpkg
       LOG_LEVEL: ${LOG_LEVEL:-info}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
       interval: 15s
       timeout: 5s
       retries: 3
       start_period: 10s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    container_name: fiberq-web
+    environment:
+      AUTH_ZITADEL_ID: ${AUTH_ZITADEL_ID:?AUTH_ZITADEL_ID is required}
+      AUTH_ZITADEL_SECRET: ${AUTH_ZITADEL_SECRET:?AUTH_ZITADEL_SECRET is required}
+      ZITADEL_ISSUER: ${ZITADEL_ISSUER:?ZITADEL_ISSUER is required}
+      AUTH_SECRET: ${AUTH_SECRET:?AUTH_SECRET is required}
+      AUTH_TRUST_HOST: "true"
+      INTERNAL_API_URL: http://api:8000
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     restart: unless-stopped
 
   nginx:
@@ -52,6 +77,8 @@ services:
       - photos:/app/storage/photos:ro
     depends_on:
       api:
+        condition: service_healthy
+      web:
         condition: service_healthy
     restart: unless-stopped
 
