@@ -1,11 +1,33 @@
-import { setRequestLocale, getTranslations } from "next-intl/server";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { setRequestLocale } from "next-intl/server";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { apiFetch } from "@/lib/api";
+import type { ProjectCard } from "@/types/project";
+import { ProjectsClient } from "./_components/projects-client";
+
+type ApiProject = {
+  id: number;
+  name: string;
+  description: string | null;
+  status: string;
+  member_count: number;
+  member_names: string[];
+  extent: GeoJSON.Geometry | null;
+  created_at: string;
+};
+
+function mapProject(p: ApiProject): ProjectCard {
+  return {
+    id: p.id,
+    name: p.name,
+    description: p.description,
+    status: p.status,
+    memberCount: p.member_count,
+    memberNames: p.member_names,
+    extent: p.extent,
+    createdAt: p.created_at,
+  };
+}
 
 export default async function ProjectsPage({
   params,
@@ -15,45 +37,30 @@ export default async function ProjectsPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const tNav = await getTranslations("nav");
-  const tPlaceholder = await getTranslations("placeholder");
+  const session = await auth();
+  if (!session) {
+    redirect(`/${locale}/api/auth/signin`);
+  }
+
+  const canCreate =
+    session.user.roles.includes("admin") ||
+    session.user.roles.includes("project_manager");
+
+  let projects: ProjectCard[] = [];
+  try {
+    const data = await apiFetch<ApiProject[]>("/projects");
+    projects = data.map(mapProject);
+  } catch {
+    // API unavailable -- show empty state
+  }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
-      <h1 className="text-2xl font-semibold">{tNav("projects")}</h1>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base text-muted-foreground">
-            {tPlaceholder("comingSoon")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-6 text-sm text-muted-foreground">
-            {tPlaceholder("projects")}
-          </p>
-
-          {/* Skeleton table layout */}
-          <div className="space-y-3">
-            {/* Table header skeleton */}
-            <div className="flex items-center gap-4 border-b pb-2">
-              <Skeleton className="h-4 w-1/4" />
-              <Skeleton className="h-4 w-1/6" />
-              <Skeleton className="h-4 w-1/6" />
-              <Skeleton className="h-4 w-1/4" />
-            </div>
-            {/* Table rows skeleton */}
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-4 py-2">
-                <Skeleton className="h-4 w-1/4" />
-                <Skeleton className="h-4 w-1/6" />
-                <Skeleton className="h-4 w-1/6" />
-                <Skeleton className="h-4 w-1/4" />
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+    <div className="mx-auto max-w-6xl space-y-6">
+      <ProjectsClient
+        projects={projects}
+        locale={locale}
+        canCreate={canCreate}
+      />
     </div>
   );
 }
