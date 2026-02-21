@@ -1,3 +1,9 @@
+# Claude Code
+.claude/
+
+# Windows artifacts
+nul
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
