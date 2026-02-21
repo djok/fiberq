@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SMRReportForm</class>
+ <widget class="QWidget" name="SMRReportForm">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Report date</string></property></widget></item>
+   <item row="0" column="1"><widget class="QDateEdit" name="report_date"><property name="calendarPopup"><bool>true</bool></property></widget></item>
+   <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Weather</string></property></widget></item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="weather">
+     <item><property name="text"><string>Sunny</string></property></item>
+     <item><property name="text"><string>Cloudy</string></property></item>
+     <item><property name="text"><string>Rain</string></property></item>
+     <item><property name="text"><string>Snow</string></property></item>
+     <item><property name="text"><string>Wind</string></property></item>
+    </widget>
+   </item>
+   <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Crew size</string></property></widget></item>
+   <item row="2" column="1"><widget class="QSpinBox" name="crew_size"><property name="minimum"><number>1</number></property><property name="maximum"><number>50</number></property><property name="value"><number>2</number></property></widget></item>
+   <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Hours worked</string></property></widget></item>
+   <item row="3" column="1"><widget class="QDoubleSpinBox" name="hours_worked"><property name="maximum"><double>24.0</double></property><property name="singleStep"><double>0.5</double></property><property name="value"><double>8.0</double></property></widget></item>
+   <item row="4" column="0"><widget class="QLabel"><property name="text"><string>Activities</string></property></widget></item>
+   <item row="4" column="1"><widget class="QPlainTextEdit" name="activities"><property name="placeholderText"><string>Describe completed activities...</string></property></widget></item>
+   <item row="5" column="0"><widget class="QLabel"><property name="text"><string>Materials used</string></property></widget></item>
+   <item row="5" column="1"><widget class="QPlainTextEdit" name="materials_used"><property name="placeholderText"><string>List materials and quantities...</string></property></widget></item>
+   <item row="6" column="0"><widget class="QLabel"><property name="text"><string>Issues</string></property></widget></item>
+   <item row="6" column="1"><widget class="QPlainTextEdit" name="issues"><property name="placeholderText"><string>Any problems or blockers...</string></property></widget></item>
+  </layout>
+ </widget>
+</ui>

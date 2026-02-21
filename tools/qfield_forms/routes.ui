@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RoutesForm</class>
+ <widget class="QWidget" name="RoutesForm">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Name</string></property></widget></item>
+   <item row="0" column="1"><widget class="QLineEdit" name="naziv"/></item>
+   <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Label</string></property></widget></item>
+   <item row="1" column="1"><widget class="QLineEdit" name="oznaka"/></item>
+   <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Route type</string></property></widget></item>
+   <item row="2" column="1">
+    <widget class="QComboBox" name="tip">
+     <item><property name="text"><string>Underground</string></property></item>
+     <item><property name="text"><string>Aerial</string></property></item>
+     <item><property name="text"><string>Mixed</string></property></item>
+    </widget>
+   </item>
+   <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Length (m)</string></property></widget></item>
+   <item row="3" column="1"><widget class="QDoubleSpinBox" name="duzina"><property name="maximum"><double>100000.0</double></property></widget></item>
+   <item row="4" column="0"><widget class="QLabel"><property name="text"><string>Status</string></property></widget></item>
+   <item row="4" column="1">
+    <widget class="QComboBox" name="stanje">
+     <item><property name="text"><string>Planned</string></property></item>
+     <item><property name="text"><string>Built</string></property></item>
+     <item><property name="text"><string>Existing</string></property></item>
+    </widget>
+   </item>
+   <item row="5" column="0"><widget class="QLabel"><property name="text"><string>Notes</string></property></widget></item>
+   <item row="5" column="1"><widget class="QPlainTextEdit" name="napomena"/></item>
+  </layout>
+ </widget>
+</ui>

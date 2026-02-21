@@ -1,0 +1,81 @@
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    container_name: fiberq-postgis
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fiberq}
+      POSTGRES_USER: ${POSTGRES_USER:-fiberq}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fiberq} -d ${POSTGRES_DB:-fiberq}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    image: fiberq/fiberq-api:${FIBERQ_API_VERSION:-latest}
+    container_name: fiberq-api
+    depends_on:
+      postgis:
+        condition: service_healthy
+    volumes:
+      - photos:/app/storage/photos
+      - gpkg_sync:/app/storage/gpkg
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-fiberq}:${POSTGRES_PASSWORD}@postgis:5432/${POSTGRES_DB:-fiberq}
+      DATABASE_SYNC_URL: postgresql://${POSTGRES_USER:-fiberq}:${POSTGRES_PASSWORD}@postgis:5432/${POSTGRES_DB:-fiberq}
+      ZITADEL_DOMAIN: ${ZITADEL_DOMAIN:?ZITADEL_DOMAIN is required}
+      ZITADEL_CLIENT_ID: ${ZITADEL_CLIENT_ID:?ZITADEL_CLIENT_ID is required}
+      ZITADEL_PROJECT_ID: ${ZITADEL_PROJECT_ID:-}
+      API_SECRET_KEY: ${API_SECRET_KEY:?API_SECRET_KEY is required}
+      STORAGE_PHOTOS_DIR: /app/storage/photos
+      STORAGE_GPKG_DIR: /app/storage/gpkg
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: fiberq-nginx
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - photos:/app/storage/photos:ro
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: fiberq-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@fiberq.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-changeme}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    profiles:
+      - admin
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    name: fiberq_pgdata
+  photos:
+    name: fiberq_photos
+  gpkg_sync:
+    name: fiberq_gpkg_sync
+  pgadmin_data:
+    name: fiberq_pgadmin_data

@@ -365,6 +365,9 @@ def _default_fields_for(layer_name: str):
         ("address_id", "Address ID", "text", "", None),
         ("stanje", "Status", "enum", "Planned", ["Planned", "Built", "Existing"]),
         ("godina_ugradnje", "Year of Installation", "year", 2025, None),
+        ("_modified_by_sub", "Modified By", "text", "", None),
+        ("_modified_at", "Modified At", "text", "", None),
+        ("_project_id", "Project ID", "int", 0, None),
     ]
     ln = (layer_name or "").lower()
     if "od ormar" in ln:
@@ -396,6 +399,9 @@ def _apply_element_aliases(layer):
         "address_id":      "Address ID",
         "stanje":          "Status",
         "godina_ugradnje": "Install year",
+        "_modified_by_sub": "Modified by",
+        "_modified_at":    "Modified at",
+        "_project_id":     "Project ID",
     }
 
     try:
@@ -2400,6 +2406,100 @@ class StuboviPlugin:
         except Exception:
             pass
 
+        # === FiberQ Server: Auth + Fiber Plan + Work Orders ===
+        try:
+            self.toolbar.addSeparator()
+        except Exception:
+            pass
+
+        # Sign In / Sign Out
+        try:
+            self.action_sign_in = QAction(
+                _load_icon('ic_publish_pg.svg'),
+                "Sign In", self.iface.mainWindow()
+            )
+            self.action_sign_in.setToolTip("Sign in to FiberQ server (Zitadel OIDC)")
+            self.action_sign_in.triggered.connect(self._fiberq_sign_in)
+            self.toolbar.addAction(self.action_sign_in)
+            self.actions.append(self.action_sign_in)
+        except Exception:
+            pass
+
+        # Fiber Plan dropdown
+        try:
+            from qgis.PyQt.QtWidgets import QToolButton, QMenu
+
+            self.menu_fiber_plan = QMenu("Fiber Plan", self.iface.mainWindow())
+
+            self.action_splice_closures = QAction("Splice Closures", self.iface.mainWindow())
+            self.action_splice_closures.setToolTip("Manage splice closures, trays, and splices")
+            self.action_splice_closures.triggered.connect(self._fiberq_open_splice_closures)
+            self.menu_fiber_plan.addAction(self.action_splice_closures)
+            self.actions.append(self.action_splice_closures)
+
+            self.action_fiber_trace = QAction("Fiber Trace", self.iface.mainWindow())
+            self.action_fiber_trace.setToolTip("Trace fiber path end-to-end (OLT → ONU)")
+            self.action_fiber_trace.triggered.connect(self._fiberq_open_fiber_trace)
+            self.menu_fiber_plan.addAction(self.action_fiber_trace)
+            self.actions.append(self.action_fiber_trace)
+
+            self.btn_fiber_plan = QToolButton(self.toolbar)
+            self.btn_fiber_plan.setText("Fiber Plan")
+            self.btn_fiber_plan.setToolTip("Fiber plan management")
+            self.btn_fiber_plan.setMenu(self.menu_fiber_plan)
+            self.btn_fiber_plan.setPopupMode(QToolButton.InstantPopup)
+            try:
+                self.btn_fiber_plan.setIcon(_load_icon('ic_optical_schematic_view.svg'))
+            except Exception:
+                pass
+            self.toolbar.addWidget(self.btn_fiber_plan)
+        except Exception:
+            pass
+
+        # Work Orders dropdown
+        try:
+            from qgis.PyQt.QtWidgets import QToolButton, QMenu
+
+            self.menu_work_orders = QMenu("Work Orders", self.iface.mainWindow())
+
+            self.action_wo_list = QAction("Work Order List", self.iface.mainWindow())
+            self.action_wo_list.setToolTip("Browse and manage work orders")
+            self.action_wo_list.triggered.connect(self._fiberq_open_work_orders)
+            self.menu_work_orders.addAction(self.action_wo_list)
+            self.actions.append(self.action_wo_list)
+
+            self.action_wo_new = QAction("New Work Order", self.iface.mainWindow())
+            self.action_wo_new.setToolTip("Create a new work order")
+            self.action_wo_new.triggered.connect(self._fiberq_new_work_order)
+            self.menu_work_orders.addAction(self.action_wo_new)
+            self.actions.append(self.action_wo_new)
+
+            self.btn_work_orders = QToolButton(self.toolbar)
+            self.btn_work_orders.setText("Work Orders")
+            self.btn_work_orders.setToolTip("Work order management")
+            self.btn_work_orders.setMenu(self.menu_work_orders)
+            self.btn_work_orders.setPopupMode(QToolButton.InstantPopup)
+            try:
+                self.btn_work_orders.setIcon(_load_icon('ic_list_of_latent_elements.svg'))
+            except Exception:
+                pass
+            self.toolbar.addWidget(self.btn_work_orders)
+        except Exception:
+            pass
+
+        # Sync with Server
+        try:
+            self.action_sync = QAction(
+                _load_icon('ic_save_gpkg.svg'),
+                "Sync with Server", self.iface.mainWindow()
+            )
+            self.action_sync.setToolTip("Sync local data with the FiberQ server")
+            self.action_sync.triggered.connect(self._fiberq_sync)
+            self.toolbar.addAction(self.action_sync)
+            self.actions.append(self.action_sync)
+        except Exception:
+            pass
+
         # Fallback: globalne prečice
         try:
             self._ensure_global_shortcuts()
@@ -2945,6 +3045,140 @@ class StuboviPlugin:
         except Exception:
             pass
 
+
+    # === FiberQ Server Action Handlers ===
+
+    def _fiberq_sign_in(self):
+        """Open the Zitadel OIDC sign-in dialog."""
+        try:
+            from .addons.zitadel_auth import open_login_dialog
+            open_login_dialog(self.iface)
+        except Exception as e:
+            QMessageBox.critical(
+                self.iface.mainWindow(), "FiberQ Sign In",
+                f"Sign-in failed:\n{e}"
+            )
+
+    def _fiberq_open_splice_closures(self):
+        """Open the splice closure management dialog."""
+        try:
+            from .addons.fiber_plan import open_splice_closure_dialog
+            open_splice_closure_dialog(self.iface)
+        except Exception as e:
+            QMessageBox.critical(
+                self.iface.mainWindow(), "FiberQ Fiber Plan",
+                f"Error:\n{e}"
+            )
+
+    def _fiberq_open_fiber_trace(self):
+        """Open the fiber trace dialog."""
+        try:
+            from .addons.fiber_plan import open_fiber_trace_dialog
+            open_fiber_trace_dialog(self.iface)
+        except Exception as e:
+            QMessageBox.critical(
+                self.iface.mainWindow(), "FiberQ Fiber Trace",
+                f"Error:\n{e}"
+            )
+
+    def _fiberq_open_work_orders(self):
+        """Open the work order list dialog."""
+        try:
+            from .addons.work_orders import open_work_order_list
+            open_work_order_list(self.iface)
+        except Exception as e:
+            QMessageBox.critical(
+                self.iface.mainWindow(), "FiberQ Work Orders",
+                f"Error:\n{e}"
+            )
+
+    def _fiberq_new_work_order(self):
+        """Open the new work order dialog."""
+        try:
+            from .addons.work_orders import open_new_work_order
+            open_new_work_order(self.iface)
+        except Exception as e:
+            QMessageBox.critical(
+                self.iface.mainWindow(), "FiberQ Work Orders",
+                f"Error:\n{e}"
+            )
+
+    def _fiberq_sync(self):
+        """Sync local GeoPackage with the FiberQ server."""
+        try:
+            from .addons.zitadel_auth import get_auth
+            from .addons.api_client import FiberQApiClient
+
+            auth = get_auth()
+            token = auth.get_token()
+            if not token:
+                QMessageBox.warning(
+                    self.iface.mainWindow(), "FiberQ Sync",
+                    "Not authenticated. Please sign in first."
+                )
+                return
+
+            api = FiberQApiClient(token=token)
+
+            # Check server health
+            try:
+                api.health()
+            except Exception as e:
+                QMessageBox.warning(
+                    self.iface.mainWindow(), "FiberQ Sync",
+                    f"Server is not reachable:\n{e}"
+                )
+                return
+
+            # Find current project GeoPackage
+            import tempfile
+            projects = api.list_projects()
+            if not projects:
+                QMessageBox.information(
+                    self.iface.mainWindow(), "FiberQ Sync",
+                    "No projects found on the server.\n"
+                    "Create a project first via Fiber Plan → Splice Closures."
+                )
+                return
+
+            project_names = [p["name"] for p in projects]
+            from qgis.PyQt.QtWidgets import QInputDialog
+            choice, ok = QInputDialog.getItem(
+                self.iface.mainWindow(), "FiberQ Sync",
+                "Select project to sync:", project_names, 0, False
+            )
+            if not ok:
+                return
+
+            project_id = None
+            for p in projects:
+                if p["name"] == choice:
+                    project_id = p["id"]
+                    break
+
+            if project_id is None:
+                return
+
+            # Download latest GPKG from server
+            dest = os.path.join(tempfile.gettempdir(), f"fiberq_sync_{project_id}.gpkg")
+            try:
+                api.sync_download(project_id, dest)
+                QMessageBox.information(
+                    self.iface.mainWindow(), "FiberQ Sync",
+                    f"Data downloaded to:\n{dest}\n\n"
+                    "Open this file in QGIS to see the latest server data."
+                )
+            except Exception as e:
+                QMessageBox.warning(
+                    self.iface.mainWindow(), "FiberQ Sync",
+                    f"Download failed:\n{e}"
+                )
+
+        except Exception as e:
+            QMessageBox.critical(
+                self.iface.mainWindow(), "FiberQ Sync",
+                f"Sync error:\n{e}"
+            )
 
     def _set_poles_alias(self):
         """Prikaži sloj 'Stubovi' kao 'Poles' u Layers panelu."""

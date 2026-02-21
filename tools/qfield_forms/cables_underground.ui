@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CablesUndergroundForm</class>
+ <widget class="QWidget" name="CablesUndergroundForm">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Name</string></property></widget></item>
+   <item row="0" column="1"><widget class="QLineEdit" name="naziv"/></item>
+   <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Label</string></property></widget></item>
+   <item row="1" column="1"><widget class="QLineEdit" name="oznaka"/></item>
+   <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Manufacturer</string></property></widget></item>
+   <item row="2" column="1"><widget class="QLineEdit" name="proizvodjac"/></item>
+   <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Capacity (fibers)</string></property></widget></item>
+   <item row="3" column="1"><widget class="QSpinBox" name="kapacitet"><property name="maximum"><number>864</number></property></widget></item>
+   <item row="4" column="0"><widget class="QLabel"><property name="text"><string>Cable type</string></property></widget></item>
+   <item row="4" column="1">
+    <widget class="QComboBox" name="tip">
+     <item><property name="text"><string>Backbone</string></property></item>
+     <item><property name="text"><string>Distributive</string></property></item>
+     <item><property name="text"><string>Drop</string></property></item>
+    </widget>
+   </item>
+   <item row="5" column="0"><widget class="QLabel"><property name="text"><string>Length (m)</string></property></widget></item>
+   <item row="5" column="1"><widget class="QDoubleSpinBox" name="duzina"><property name="maximum"><double>100000.0</double></property><property name="singleStep"><double>1.0</double></property></widget></item>
+   <item row="6" column="0"><widget class="QLabel"><property name="text"><string>Status</string></property></widget></item>
+   <item row="6" column="1">
+    <widget class="QComboBox" name="stanje">
+     <item><property name="text"><string>Planned</string></property></item>
+     <item><property name="text"><string>Built</string></property></item>
+     <item><property name="text"><string>Existing</string></property></item>
+    </widget>
+   </item>
+   <item row="7" column="0"><widget class="QLabel"><property name="text"><string>Notes</string></property></widget></item>
+   <item row="7" column="1"><widget class="QPlainTextEdit" name="napomena"/></item>
+  </layout>
+ </widget>
+</ui>

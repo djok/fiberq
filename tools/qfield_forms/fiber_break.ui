@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FiberBreakForm</class>
+ <widget class="QWidget" name="FiberBreakForm">
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0"><widget class="QLabel"><property name="text"><string>Name</string></property></widget></item>
+   <item row="0" column="1"><widget class="QLineEdit" name="naziv"/></item>
+   <item row="1" column="0"><widget class="QLabel"><property name="text"><string>Cable layer</string></property></widget></item>
+   <item row="1" column="1"><widget class="QLineEdit" name="kabl_layer_id"/></item>
+   <item row="2" column="0"><widget class="QLabel"><property name="text"><string>Cable FID</string></property></widget></item>
+   <item row="2" column="1"><widget class="QSpinBox" name="kabl_fid"><property name="maximum"><number>999999</number></property></widget></item>
+   <item row="3" column="0"><widget class="QLabel"><property name="text"><string>Distance (m)</string></property></widget></item>
+   <item row="3" column="1"><widget class="QDoubleSpinBox" name="distance_m"><property name="maximum"><double>100000.0</double></property><property name="decimals"><number>3</number></property></widget></item>
+   <item row="4" column="0"><widget class="QLabel"><property name="text"><string>Notes</string></property></widget></item>
+   <item row="4" column="1"><widget class="QPlainTextEdit" name="napomena"/></item>
+  </layout>
+ </widget>
+</ui>
