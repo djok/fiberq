@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 4 of 4 (Dashboard & Analytics)
-Plan: 1 of 2 in current phase -- 04-01 complete
-Status: Stats/activity API endpoints added, project_activity_log table created
-Last activity: 2026-02-22 -- Plan 04-01 completed
+Plan: 2 of 2 in current phase -- 04-02 complete
+Status: All phases complete -- stat tiles, activity feed UI integrated into project detail page
+Last activity: 2026-02-22 -- Plan 04-02 completed
 
-Progress: [█████████░] 91%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 11
 - Average duration: 5 min
-- Total execution time: 1.0 hours
+- Total execution time: 1.1 hours
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [█████████░] 91%
 | 01 | 3/3 | 24 min | 8 min |
 | 02 | 3/3 | 14 min | 5 min |
 | 03 | 3/3 | 11 min | 4 min |
-| 04 | 1/2 | 3 min | 3 min |
+| 04 | 2/2 | 7 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (2 min), 03-02 (5 min), 03-03 (4 min), 04-01 (3 min)
+- Last 5 plans: 03-02 (5 min), 03-03 (4 min), 04-01 (3 min), 04-02 (4 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -89,6 +89,10 @@ Recent decisions affecting current work:
 - [04-01]: Activity feed skips assignment logging to project_activity_log to avoid duplicate events (assignments queryable from project_users)
 - [04-01]: Route ordering: stats and activity endpoints before /{project_id} detail to prevent FastAPI route shadowing
 - [04-01]: _check_project_visibility helper extracted for reusable project existence + access checks
+- [04-02]: Promise.allSettled for stats/activity fetches -- page renders even if dashboard APIs fail
+- [04-02]: StatTile value accepts number | string | null for both numeric counts and relative time
+- [04-02]: getFormatter/getNow from next-intl/server for server-side relative time (avoids hydration mismatch)
+- [04-02]: Simplified Project Info card -- removed duplicate name/status already visible in header
 
 ### Pending Todos
 
@@ -103,5 +107,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 04-01-PLAN.md
-Resume file: .planning/phases/04-*/04-02-PLAN.md
+Stopped at: Completed 04-02-PLAN.md -- All phases complete
+Resume file: N/A -- All 4 phases executed
