@@ -63,11 +63,12 @@ Plans:
   3. Admin or Project Manager can assign a user to a project, and that user then sees the project in their list
   4. User can view the members assigned to a project with their names and roles
   5. User can filter and search projects by name, status, and assigned user
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md -- Backend: project_users table, status column, role-scoped API, assignment endpoints, PostGIS extent
+- [ ] 03-02-PLAN.md -- Project list page with card grid, PostGIS mini-maps, filters, create project dialog
+- [ ] 03-03-PLAN.md -- Project detail page with interactive map, member list, inline assignment combobox, edit dialog
 
 ### Phase 4: Dashboard & Analytics
 **Goal**: Project detail pages provide at-a-glance intelligence about project health and recent activity
@@ -90,5 +91,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation & App Shell | 3/3 | Complete | 2026-02-21 |
 | 2. User Management | 0/3 | Not started | - |
-| 3. Project Management & Assignment | 0/2 | Not started | - |
+| 3. Project Management & Assignment | 0/3 | Not started | - |
 | 4. Dashboard & Analytics | 0/1 | Not started | - |
