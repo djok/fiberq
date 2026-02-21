@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "users": "User Management",
+    "profile": "Profile",
+    "logout": "Sign Out"
+  },
+  "profile": {
+    "title": "My Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "projects": "Assigned Projects",
+    "lastLogin": "Last Login",
+    "editProfile": "Edit Profile",
+    "noProjects": "No projects assigned yet"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "language": "Language",
+    "appName": "FiberQ"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "sessionExpired": "Your session has expired. Please sign in again."
+  },
+  "roles": {
+    "admin": "Administrator",
+    "project_manager": "Project Manager",
+    "engineer": "Engineer",
+    "field_worker": "Field Worker"
+  }
+}
