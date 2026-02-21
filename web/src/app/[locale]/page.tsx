@@ -9,7 +9,7 @@ export default async function LocaleRootPage() {
 
   if (!session) {
     // Fallback -- layout should have already redirected
-    redirect({ href: "/api/auth/signin/kanidm", locale });
+    redirect({ href: "/api/auth/signin", locale });
     return null;
   }
 

@@ -31,7 +31,7 @@ export default auth(async function proxy(request: NextRequest) {
   const session = (request as unknown as { auth: unknown }).auth;
   if (!session) {
     // Redirect directly to Kanidm login (no intermediate landing page)
-    const signInUrl = new URL("/api/auth/signin/kanidm", request.url);
+    const signInUrl = new URL("/api/auth/signin", request.url);
     return NextResponse.redirect(signInUrl);
   }
 

@@ -13,7 +13,7 @@ export default async function ProfilePage({
 
   const session = await auth();
   if (!session) {
-    redirect("/api/auth/signin/kanidm");
+    redirect("/api/auth/signin");
   }
 
   const t = await getTranslations("profile");
