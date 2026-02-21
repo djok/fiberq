@@ -94,6 +94,15 @@
     "resetSuccess": "Password reset token generated",
     "actionError": "Operation failed",
     "rolesUpdated": "Roles updated successfully",
-    "projectsPlaceholder": "Projects will be available after Phase 3"
+    "projectsPlaceholder": "Projects will be available after Phase 3",
+    "save": "Save",
+    "backToUsers": "Back to users",
+    "profileInfo": "Profile Information",
+    "notSet": "Not set",
+    "assignedProjects": "Assigned Projects",
+    "accountInfo": "Account Info",
+    "userId": "User ID",
+    "deactivateUser": "Deactivate User",
+    "reactivateUser": "Reactivate User"
   }
 }
