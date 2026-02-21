@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: fiberq/fiberq-api
+  IMAGE_NAME: djok/fiberq-api
 
 jobs:
   build-and-push:
