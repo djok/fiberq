@@ -11,9 +11,10 @@ RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 FROM python:3.12-slim
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq5 libgdal32 gdal-bin \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    GDAL_LIB=$(apt-cache search --names-only '^libgdal[0-9]' | head -1 | awk '{print $1}') && \
+    apt-get install -y --no-install-recommends libpq5 "$GDAL_LIB" gdal-bin && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /install /usr/local
 
