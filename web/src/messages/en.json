@@ -15,7 +15,13 @@
     "projects": "Assigned Projects",
     "lastLogin": "Last Login",
     "editProfile": "Edit Profile",
-    "noProjects": "No projects assigned yet"
+    "noProjects": "No projects assigned yet. Projects will appear here after assignment."
+  },
+  "placeholder": {
+    "dashboard": "Dashboard analytics coming in a future update.",
+    "projects": "Project management coming in a future update.",
+    "users": "User management coming in a future update.",
+    "comingSoon": "Coming Soon"
   },
   "common": {
     "loading": "Loading...",
