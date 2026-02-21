@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 interface ProjectMiniMapProps {
   extent: GeoJSON.Geometry | null;
   className?: string;
+  interactive?: boolean;
 }
 
 /**
@@ -71,7 +72,7 @@ function getBounds(
   ];
 }
 
-export function ProjectMiniMap({ extent, className }: ProjectMiniMapProps) {
+export function ProjectMiniMap({ extent, className, interactive = false }: ProjectMiniMapProps) {
   const t = useTranslations("projects");
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -122,9 +123,13 @@ export function ProjectMiniMap({ extent, className }: ProjectMiniMapProps) {
           },
         ],
       },
-      interactive: false,
+      interactive: interactive,
       attributionControl: false,
     });
+
+    if (interactive) {
+      map.addControl(new maplibregl.NavigationControl(), "top-right");
+    }
 
     mapRef.current = map;
 
@@ -168,7 +173,7 @@ export function ProjectMiniMap({ extent, className }: ProjectMiniMapProps) {
       map.remove();
       mapRef.current = null;
     };
-  }, [isVisible, extent]);
+  }, [isVisible, extent, interactive]);
 
   if (!extent) {
     return (
