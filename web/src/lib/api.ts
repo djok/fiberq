@@ -28,7 +28,13 @@ export async function apiFetch<T = unknown>(
   });
 
   if (!res.ok) {
-    throw new Error(`API error: ${res.status}`);
+    const body = await res.text().catch(() => "");
+    throw new Error(body || `API error: ${res.status}`);
+  }
+
+  // Handle 204 No Content (e.g. deactivate/reactivate)
+  if (res.status === 204 || res.headers.get("content-length") === "0") {
+    return undefined as T;
   }
 
   return res.json() as Promise<T>;
