@@ -88,34 +88,34 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | — | Pending |
-| AUTH-02 | — | Pending |
-| AUTH-03 | — | Pending |
-| AUTH-04 | — | Pending |
-| USER-01 | — | Pending |
-| USER-02 | — | Pending |
-| USER-03 | — | Pending |
-| USER-04 | — | Pending |
-| USER-05 | — | Pending |
-| USER-06 | — | Pending |
-| PROJ-01 | — | Pending |
-| PROJ-02 | — | Pending |
-| PROJ-03 | — | Pending |
-| PROJ-04 | — | Pending |
-| PROJ-05 | — | Pending |
-| ASGN-01 | — | Pending |
-| ASGN-02 | — | Pending |
-| ASGN-03 | — | Pending |
-| UIUX-01 | — | Pending |
-| UIUX-02 | — | Pending |
-| DASH-01 | — | Pending |
-| DASH-02 | — | Pending |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| USER-01 | Phase 2 | Pending |
+| USER-02 | Phase 2 | Pending |
+| USER-03 | Phase 2 | Pending |
+| USER-04 | Phase 2 | Pending |
+| USER-05 | Phase 2 | Pending |
+| USER-06 | Phase 2 | Pending |
+| PROJ-01 | Phase 3 | Pending |
+| PROJ-02 | Phase 3 | Pending |
+| PROJ-03 | Phase 3 | Pending |
+| PROJ-04 | Phase 3 | Pending |
+| PROJ-05 | Phase 3 | Pending |
+| ASGN-01 | Phase 3 | Pending |
+| ASGN-02 | Phase 3 | Pending |
+| ASGN-03 | Phase 3 | Pending |
+| UIUX-01 | Phase 1 | Pending |
+| UIUX-02 | Phase 1 | Pending |
+| DASH-01 | Phase 4 | Pending |
+| DASH-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 22 total
-- Mapped to phases: 0
-- Unmapped: 22 (pending roadmap creation)
+- Mapped to phases: 22
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-21*
-*Last updated: 2026-02-21 after initial definition*
+*Last updated: 2026-02-21 after roadmap creation*

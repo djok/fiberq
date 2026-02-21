@@ -1,0 +1,93 @@
+# Roadmap: FiberQ WebUI
+
+## Overview
+
+FiberQ WebUI transforms an existing QGIS-only fiber optic management system into a browser-accessible platform. The journey starts with solving the hardest problem first -- authentication integration between Next.js, Zitadel, and FastAPI (where all 7 critical pitfalls live). Once tokens flow correctly, we build the two features that justify the WebUI's existence: user lifecycle management (without the Zitadel console) and project-to-user assignment (without raw API calls). Finally, dashboard views aggregate existing data into actionable project intelligence.
+
+## Phases
+
+**Phase Numbering:**
+- Integer phases (1, 2, 3): Planned milestone work
+- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+
+Decimal phases appear between their surrounding integers in numeric order.
+
+- [ ] **Phase 1: Auth Foundation & App Shell** - OIDC login, session management, role-based navigation shell, responsive layout, Docker integration
+- [ ] **Phase 2: User Management** - Admin CRUD for user accounts via Zitadel Management API
+- [ ] **Phase 3: Project Management & Assignment** - Project CRUD, user-to-project assignment with new junction table
+- [ ] **Phase 4: Dashboard & Analytics** - Per-project stats and activity feed over existing data
+
+## Phase Details
+
+### Phase 1: Auth Foundation & App Shell
+**Goal**: Users can securely log in to a working Next.js application that enforces role-based access and renders correctly on tablets
+**Depends on**: Nothing (first phase)
+**Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, UIUX-01, UIUX-02
+**Success Criteria** (what must be TRUE):
+  1. User can log in via Zitadel OIDC in a browser, and a hard-refresh of a protected page renders with data (not a 401 or login redirect)
+  2. User can log out from any page and is redirected to the login screen with Zitadel session ended
+  3. User can view their own profile page showing name, email, and role (sourced from Zitadel token claims)
+  4. An Admin user sees the "User Management" navigation item; a Field Worker user does not
+  5. The application layout renders correctly and is usable on a 768px-wide viewport (tablet)
+**Plans**: TBD
+
+Plans:
+- [ ] 01-01: TBD
+- [ ] 01-02: TBD
+- [ ] 01-03: TBD
+
+### Phase 2: User Management
+**Goal**: Admins can manage the full user lifecycle from the WebUI without touching the Zitadel console
+**Depends on**: Phase 1
+**Requirements**: USER-01, USER-02, USER-03, USER-04, USER-05, USER-06
+**Success Criteria** (what must be TRUE):
+  1. Admin can view a list of all users showing name, email, role, active/inactive status, and last login timestamp
+  2. Admin can create a new user with a role assignment, and that user can subsequently log in via Zitadel
+  3. Admin can deactivate a user, and that user can no longer log in; admin can reactivate the user and login works again
+  4. Admin can change a user's role, and the user's next login reflects the new role in their token claims
+  5. Admin can trigger a password reset email for a user
+**Plans**: TBD
+
+Plans:
+- [ ] 02-01: TBD
+- [ ] 02-02: TBD
+
+### Phase 3: Project Management & Assignment
+**Goal**: Users can manage projects and assign team members, with visibility scoped by role and assignment
+**Depends on**: Phase 2
+**Requirements**: PROJ-01, PROJ-02, PROJ-03, PROJ-04, PROJ-05, ASGN-01, ASGN-02, ASGN-03
+**Success Criteria** (what must be TRUE):
+  1. A non-admin user sees only projects they are assigned to; an admin sees all projects
+  2. Admin or Project Manager can create a project with name and description, and it appears in the project list
+  3. Admin or Project Manager can assign a user to a project, and that user then sees the project in their list
+  4. User can view the members assigned to a project with their names and roles
+  5. User can filter and search projects by name, status, and assigned user
+**Plans**: TBD
+
+Plans:
+- [ ] 03-01: TBD
+- [ ] 03-02: TBD
+
+### Phase 4: Dashboard & Analytics
+**Goal**: Project detail pages provide at-a-glance intelligence about project health and recent activity
+**Depends on**: Phase 3
+**Requirements**: DASH-01, DASH-02
+**Success Criteria** (what must be TRUE):
+  1. Project detail page displays element counts (closures, poles, cables), team size, and last sync timestamp from existing database tables
+  2. Project detail page shows an activity feed of recent actions (sync uploads, user assignments, status changes) in reverse chronological order
+**Plans**: TBD
+
+Plans:
+- [ ] 04-01: TBD
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Auth Foundation & App Shell | 0/3 | Not started | - |
+| 2. User Management | 0/2 | Not started | - |
+| 3. Project Management & Assignment | 0/2 | Not started | - |
+| 4. Dashboard & Analytics | 0/1 | Not started | - |
