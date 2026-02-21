@@ -5,34 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users can log in to a unified system (Kanidm), manage projects, and work with fiber optic networks -- from both QGIS and a web browser.
-**Current focus:** Phase 2 User Management -- backend API for user CRUD
+**Current focus:** Phase 2 User Management -- frontend user list and create user dialog
 
 ## Current Position
 
 Phase: 2 of 4 (User Management)
-Plan: 1 of 3 in current phase -- 02-01 complete
-Status: Plan 02-01 complete -- Kanidm admin API proxy, user CRUD endpoints, login tracking
-Last activity: 2026-02-21 -- Plan 02-01 completed
+Plan: 2 of 3 in current phase -- 02-02 complete
+Status: Plan 02-02 complete -- User list data table, create user dialog, server actions
+Last activity: 2026-02-21 -- Plan 02-02 completed
 
-Progress: [████░░░░░░] 33%
+Progress: [██████░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 7 min
-- Total execution time: 0.5 hours
+- Total execution time: 0.6 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 3/3 | 24 min | 8 min |
-| 02 | 1/3 | 4 min | 4 min |
+| 02 | 2/3 | 10 min | 5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (9 min), 01-02 (5 min), 01-03 (10 min), 02-01 (4 min)
-- Trend: improving
+- Last 5 plans: 01-02 (5 min), 01-03 (10 min), 02-01 (4 min), 02-02 (6 min)
+- Trend: stable
 
 *Updated after each plan completion*
 
@@ -64,6 +64,10 @@ Recent decisions affecting current work:
 - [02-01]: KanidmAdminClient as plain class instantiated per-request via factory function
 - [02-01]: INTERNAL_API_URL env var for server-side auth.ts record-login call
 - [02-01]: Fire-and-forget login tracking pattern -- never blocks sign-in flow
+- [02-02]: Server component fetches + maps snake_case to camelCase, passes to client wrapper for table rendering
+- [02-02]: DataTable owns table instance internally, renders toolbar with table ref
+- [02-02]: Server Actions return discriminated union { success: true, data: T } | { success: false, error: string }
+- [02-02]: Graceful fallback: empty table when API unavailable
 
 ### Pending Todos
 
@@ -72,11 +76,11 @@ None.
 ### Blockers/Concerns
 
 - [Phase 1]: Auth.js v5 beta stability -- monitor
-- [Phase 1]: Zod 4 + @hookform/resolvers compatibility -- verify at project setup, fall back to Zod 3.24.x if needed
+- [Phase 1]: Zod 4 + @hookform/resolvers compatibility -- RESOLVED: zod 3.x + @hookform/resolvers installed and working
 - [Phase 2]: Kanidm API access for user management -- RESOLVED: using V1 REST API with service account token
 
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 02-01-PLAN.md
-Resume file: .planning/phases/02-user-management/02-01-SUMMARY.md
+Stopped at: Completed 02-02-PLAN.md
+Resume file: .planning/phases/02-user-management/02-02-SUMMARY.md
