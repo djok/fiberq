@@ -1,4 +1,9 @@
-import { setRequestLocale, getTranslations } from "next-intl/server";
+import {
+  setRequestLocale,
+  getTranslations,
+  getFormatter,
+  getNow,
+} from "next-intl/server";
 import { auth } from "@/auth";
 import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -14,7 +19,14 @@ import {
 } from "@/components/ui/card";
 import { ProjectDetailActions } from "../_components/project-detail-actions";
 import { ProjectMiniMap } from "../_components/project-mini-map";
-import type { ProjectDetail, ProjectMember } from "@/types/project";
+import { ProjectStats } from "../_components/project-stats";
+import { ProjectActivity } from "../_components/project-activity";
+import type {
+  ProjectDetail,
+  ProjectMember,
+  ProjectStats as ProjectStatsType,
+  ActivityEntry,
+} from "@/types/project";
 
 type ApiProjectMember = {
   id: number;
@@ -34,6 +46,29 @@ type ApiProjectDetail = {
   created_by_sub: string | null;
   members: ApiProjectMember[];
   extent: GeoJSON.Geometry | null;
+};
+
+type ApiProjectStats = {
+  closures: number | null;
+  poles: number | null;
+  cables: number | null;
+  cable_length_m: number | null;
+  team_size: number;
+  last_sync_at: string | null;
+  last_sync_features: number | null;
+};
+
+type ApiActivityEntry = {
+  event_type: string;
+  event_at: string;
+  user_sub: string | null;
+  user_display_name: string | null;
+  details: Record<string, unknown> | null;
+};
+
+type ApiActivityPage = {
+  entries: ApiActivityEntry[];
+  has_more: boolean;
 };
 
 function mapMember(m: ApiProjectMember): ProjectMember {
@@ -60,6 +95,28 @@ function mapProjectDetail(p: ApiProjectDetail): ProjectDetail {
   };
 }
 
+function mapStats(s: ApiProjectStats): ProjectStatsType {
+  return {
+    closures: s.closures,
+    poles: s.poles,
+    cables: s.cables,
+    cableLengthM: s.cable_length_m,
+    teamSize: s.team_size,
+    lastSyncAt: s.last_sync_at,
+    lastSyncFeatures: s.last_sync_features,
+  };
+}
+
+function mapActivityEntries(entries: ApiActivityEntry[]): ActivityEntry[] {
+  return entries.map((e) => ({
+    eventType: e.event_type,
+    eventAt: e.event_at,
+    userSub: e.user_sub,
+    userDisplayName: e.user_display_name,
+    details: e.details,
+  }));
+}
+
 const STATUS_LABEL_MAP: Record<string, string> = {
   planning: "statusPlanning",
   in_progress: "statusInProgress",
@@ -82,8 +139,14 @@ export default async function ProjectDetailPage({
   }
 
   const t = await getTranslations("projects");
+  const td = await getTranslations("dashboard");
 
+  // Fetch project data (required) and stats/activity (optional, graceful fallback)
   let project: ProjectDetail;
+  let stats: ProjectStatsType | null = null;
+  let activityEntries: ActivityEntry[] = [];
+  let activityHasMore = false;
+
   try {
     const data = await apiFetch<ApiProjectDetail>(`/projects/${id}`);
     project = mapProjectDetail(data);
@@ -91,8 +154,36 @@ export default async function ProjectDetailPage({
     notFound();
   }
 
-  // Determine if user can manage this project:
-  // admin, global project_manager, or project-level manager
+  // Fetch stats and activity in parallel -- don't block page if they fail
+  const [statsResult, activityResult] = await Promise.allSettled([
+    apiFetch<ApiProjectStats>(`/projects/${id}/stats`),
+    apiFetch<ApiActivityPage>(`/projects/${id}/activity?limit=20`),
+  ]);
+
+  if (statsResult.status === "fulfilled") {
+    stats = mapStats(statsResult.value);
+  }
+
+  if (activityResult.status === "fulfilled") {
+    activityEntries = mapActivityEntries(activityResult.value.entries);
+    activityHasMore = activityResult.value.has_more;
+  }
+
+  // Compute relative time for last sync
+  let lastSyncRelative: string | null = null;
+  let lastSyncExact: string | null = null;
+
+  if (stats?.lastSyncAt) {
+    const format = await getFormatter();
+    const now = await getNow();
+    lastSyncRelative = format.relativeTime(new Date(stats.lastSyncAt), now);
+    lastSyncExact = format.dateTime(new Date(stats.lastSyncAt), {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  }
+
+  // Determine if user can manage this project
   const userRoles = session.user.roles;
   const isAdmin = userRoles.includes("admin");
   const isGlobalPM = userRoles.includes("project_manager");
@@ -101,6 +192,15 @@ export default async function ProjectDetailPage({
       m.userSub === session.user.id && m.projectRole === "manager",
   );
   const canManage = isAdmin || isGlobalPM || isProjectManager;
+
+  const statsTranslations = {
+    closures: td("closures"),
+    poles: td("poles"),
+    cables: td("cables"),
+    cableLength: td("cableLength"),
+    teamSize: td("teamSize"),
+    lastSync: td("lastSync"),
+  };
 
   return (
     <div className="mx-auto max-w-6xl space-y-6">
@@ -134,6 +234,16 @@ export default async function ProjectDetailPage({
         </Badge>
       </div>
 
+      {/* Stat Tiles Row - full width */}
+      {stats && (
+        <ProjectStats
+          stats={stats}
+          lastSyncRelative={lastSyncRelative}
+          lastSyncExact={lastSyncExact}
+          translations={statsTranslations}
+        />
+      )}
+
       {/* Content Grid */}
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Left Column */}
@@ -149,25 +259,13 @@ export default async function ProjectDetailPage({
             </CardContent>
           </Card>
 
-          {/* Project Info Card */}
+          {/* Project Info Card (simplified - no duplicate name/status) */}
           <Card>
             <CardHeader>
               <CardTitle>{t("projectInfo")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">{t("name")}</p>
-                  <p className="text-sm mt-1">{project.name}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">
-                    {t("status")}
-                  </p>
-                  <p className="text-sm mt-1">
-                    {t(STATUS_LABEL_MAP[project.status] ?? "statusPlanning")}
-                  </p>
-                </div>
                 <div className="col-span-2">
                   <p className="text-sm text-muted-foreground">
                     {t("description")}
@@ -187,6 +285,14 @@ export default async function ProjectDetailPage({
               </div>
             </CardContent>
           </Card>
+
+          {/* Activity Feed */}
+          <ProjectActivity
+            projectId={project.id}
+            initialEntries={activityEntries}
+            initialHasMore={activityHasMore}
+            locale={locale}
+          />
         </div>
 
         {/* Right Column - Client component for interactive actions */}
