@@ -461,3 +461,21 @@ CREATE INDEX IF NOT EXISTS idx_project_users_user ON project_users (user_sub);
 
 GRANT ALL PRIVILEGES ON TABLE project_users TO fiberq;
 GRANT USAGE, SELECT ON SEQUENCE project_users_id_seq TO fiberq;
+
+-- =============================================================================
+-- PROJECT ACTIVITY LOG (for dashboard feed)
+-- =============================================================================
+-- Tracks events not capturable from existing tables: status changes,
+-- member removals. Used by the activity feed UNION query.
+
+CREATE TABLE IF NOT EXISTS project_activity_log (
+    id SERIAL PRIMARY KEY,
+    project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    event_type TEXT NOT NULL,  -- 'status_change', 'member_removed'
+    user_sub TEXT NOT NULL,
+    details JSONB DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_pal_project ON project_activity_log (project_id, created_at DESC);
+GRANT ALL PRIVILEGES ON TABLE project_activity_log TO fiberq;
+GRANT USAGE, SELECT ON SEQUENCE project_activity_log_id_seq TO fiberq;

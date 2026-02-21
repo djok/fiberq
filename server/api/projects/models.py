@@ -55,3 +55,26 @@ class ProjectDetailOut(BaseModel):
     created_by_sub: str | None
     members: list[ProjectMemberOut] = []
     extent: dict | None = None
+
+
+class ProjectStats(BaseModel):
+    closures: int | None
+    poles: int | None
+    cables: int | None
+    cable_length_m: float | None
+    team_size: int
+    last_sync_at: datetime | None
+    last_sync_features: int | None
+
+
+class ActivityEntry(BaseModel):
+    event_type: str
+    event_at: datetime
+    user_sub: str | None
+    user_display_name: str | None
+    details: dict | None
+
+
+class ActivityPage(BaseModel):
+    entries: list[ActivityEntry]
+    has_more: bool
