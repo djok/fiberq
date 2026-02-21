@@ -13,7 +13,8 @@ services:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fiberq} -d ${POSTGRES_DB:-fiberq}"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 15
+      start_period: 30s
     restart: unless-stopped
 
   api:
@@ -46,8 +47,6 @@ services:
   nginx:
     image: nginx:alpine
     container_name: fiberq-nginx
-    ports:
-      - "${HTTP_PORT:-80}:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - photos:/app/storage/photos:ro
