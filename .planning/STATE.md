@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users can log in to a unified system (Kanidm), manage projects, and work with fiber optic networks -- from both QGIS and a web browser.
-**Current focus:** Phase 3 Project Management & Assignment
+**Current focus:** Phase 4 Dashboard & Analytics
 
 ## Current Position
 
-Phase: 3 of 4 (Project Management & Assignment) -- COMPLETE
-Plan: 3 of 3 in current phase -- 03-03 complete
-Status: Phase 3 complete: project CRUD, card grid with mini-maps, detail page with member management
-Last activity: 2026-02-22 -- Plan 03-03 completed
+Phase: 4 of 4 (Dashboard & Analytics)
+Plan: 1 of 2 in current phase -- 04-01 complete
+Status: Stats/activity API endpoints added, project_activity_log table created
+Last activity: 2026-02-22 -- Plan 04-01 completed
 
-Progress: [█████████░] 90%
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 6 min
-- Total execution time: 0.9 hours
+- Total plans completed: 10
+- Average duration: 5 min
+- Total execution time: 1.0 hours
 
 **By Phase:**
 
@@ -30,9 +30,10 @@ Progress: [█████████░] 90%
 | 01 | 3/3 | 24 min | 8 min |
 | 02 | 3/3 | 14 min | 5 min |
 | 03 | 3/3 | 11 min | 4 min |
+| 04 | 1/2 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-03 (4 min), 03-01 (2 min), 03-02 (5 min), 03-03 (4 min)
+- Last 5 plans: 03-01 (2 min), 03-02 (5 min), 03-03 (4 min), 04-01 (3 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -84,6 +85,10 @@ Recent decisions affecting current work:
 - [03-03]: Interactive prop on ProjectMiniMap (default false) -- detail page map has NavigationControl, card maps static
 - [03-03]: Lazy-load assignable users via server action when combobox opens (not on page load)
 - [03-03]: canManage derived from admin, global project_manager, or project-level manager role
+- [04-01]: Stats return null for counts when no completed sync_log entry exists (not 0) -- distinguishes 'no data' from 'zero elements'
+- [04-01]: Activity feed skips assignment logging to project_activity_log to avoid duplicate events (assignments queryable from project_users)
+- [04-01]: Route ordering: stats and activity endpoints before /{project_id} detail to prevent FastAPI route shadowing
+- [04-01]: _check_project_visibility helper extracted for reusable project existence + access checks
 
 ### Pending Todos
 
@@ -98,5 +103,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 03-03-PLAN.md (Phase 3 complete)
-Resume file: .planning/phases/04-*/04-01-PLAN.md
+Stopped at: Completed 04-01-PLAN.md
+Resume file: .planning/phases/04-*/04-02-PLAN.md
