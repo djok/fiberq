@@ -86,5 +86,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 02-03-PLAN.md -- Phase 2 complete
-Resume file: .planning/phases/02-user-management/02-03-SUMMARY.md
+Stopped at: Phase 3 context gathered
+Resume file: .planning/phases/03-project-management-assignment/03-CONTEXT.md
