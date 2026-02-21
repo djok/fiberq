@@ -46,11 +46,12 @@ Plans:
   3. Admin can deactivate a user, and that user can no longer log in; admin can reactivate the user and login works again
   4. Admin can change a user's role, and the user's next login reflects the new role in their token claims
   5. Admin can trigger a password reset email for a user
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- FastAPI backend: Kanidm admin client, /users router, last login tracking
+- [ ] 02-02-PLAN.md -- User list page with data table, search/filters, create user dialog
+- [ ] 02-03-PLAN.md -- User detail page, actions dropdown, role editing, password reset
 
 ### Phase 3: Project Management & Assignment
 **Goal**: Users can manage projects and assign team members, with visibility scoped by role and assignment
@@ -88,6 +89,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation & App Shell | 3/3 | Complete | 2026-02-21 |
-| 2. User Management | 0/2 | Not started | - |
+| 2. User Management | 0/3 | Not started | - |
 | 3. Project Management & Assignment | 0/2 | Not started | - |
 | 4. Dashboard & Analytics | 0/1 | Not started | - |
