@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 ## Current Position
 
 Phase: 3 of 4 (Project Management & Assignment)
-Plan: 1 of 3 in current phase -- 03-01 complete
-Status: Backend API extended with project status, assignment CRUD, PostGIS extent
-Last activity: 2026-02-22 -- Plan 03-01 completed
+Plan: 2 of 3 in current phase -- 03-02 complete
+Status: Project list page with card grid, mini-maps, filters, and create dialog
+Last activity: 2026-02-22 -- Plan 03-02 completed
 
-Progress: [████████░░] 70%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 6 min
-- Total execution time: 0.7 hours
+- Total execution time: 0.8 hours
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [████████░░] 70%
 |-------|-------|-------|----------|
 | 01 | 3/3 | 24 min | 8 min |
 | 02 | 3/3 | 14 min | 5 min |
-| 03 | 1/3 | 2 min | 2 min |
+| 03 | 2/3 | 7 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (4 min), 02-02 (6 min), 02-03 (4 min), 03-01 (2 min)
-- Trend: accelerating
+- Last 5 plans: 02-02 (6 min), 02-03 (4 min), 03-01 (2 min), 03-02 (5 min)
+- Trend: stable
 
 *Updated after each plan completion*
 
@@ -77,6 +77,9 @@ Recent decisions affecting current work:
 - [03-01]: Batch PostGIS extent via UNION ALL grouped by project_id (avoids N+1)
 - [03-01]: assignable-users from user_logins table (pragmatic shortcut, no Kanidm API call)
 - [03-01]: Upsert pattern for member assignment (ON CONFLICT DO UPDATE)
+- [03-02]: MapLibre GL with inline OSM raster tiles for mini-maps (no external tile server)
+- [03-02]: Intersection Observer lazy loading for WebGL context limits with many project cards
+- [03-02]: canCreate derived from admin or project_manager role on server side, passed as prop
 
 ### Pending Todos
 
@@ -91,5 +94,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-project-management-assignment/03-02-PLAN.md
+Stopped at: Completed 03-02-PLAN.md
+Resume file: .planning/phases/03-project-management-assignment/03-03-PLAN.md
