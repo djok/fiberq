@@ -76,6 +76,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           roles = extractRolesFromClaims(accessClaims);
         }
         token.roles = roles;
+
+        // Record login event for last-login tracking (fire-and-forget)
+        const apiUrl = process.env.INTERNAL_API_URL || "http://api:8000";
+        fetch(`${apiUrl}/auth/record-login`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${account.access_token}` },
+        }).catch(() => {}); // Don't block sign-in if this fails
       }
 
       // Silent token refresh when access_token expires

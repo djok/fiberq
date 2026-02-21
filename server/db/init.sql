@@ -421,3 +421,17 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA fiberq TO fiberq;
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA fiberq TO fiberq;
 ALTER DEFAULT PRIVILEGES IN SCHEMA fiberq GRANT ALL PRIVILEGES ON TABLES TO fiberq;
 ALTER DEFAULT PRIVILEGES IN SCHEMA fiberq GRANT ALL PRIVILEGES ON SEQUENCES TO fiberq;
+
+-- =============================================================================
+-- USER LOGIN TRACKING
+-- =============================================================================
+-- Tracks last login time per user since Kanidm does not expose this via API.
+-- Updated on each WebUI or QGIS plugin authentication.
+
+CREATE TABLE IF NOT EXISTS user_logins (
+    user_sub TEXT PRIMARY KEY,
+    username TEXT,
+    last_login_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    login_source TEXT DEFAULT 'web'
+);
+CREATE INDEX IF NOT EXISTS idx_user_logins_last ON user_logins (last_login_at);
