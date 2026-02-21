@@ -11,8 +11,8 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 
 Phase: 1 of 4 (Auth Foundation & App Shell)
 Plan: 0 of 3 in current phase
-Status: Ready to plan
-Last activity: 2026-02-21 -- Roadmap created
+Status: Context gathered, ready to plan
+Last activity: 2026-02-21 -- Phase 1 context gathered
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -44,6 +44,10 @@ Recent decisions affecting current work:
 
 - [Roadmap]: 4 phases derived from 22 requirements; auth first because all 7 critical pitfalls live there
 - [Roadmap]: UIUX-01 and UIUX-02 placed in Phase 1 (shell-level concerns, not feature-level)
+- [Phase 1]: Collapsible sidebar navigation, green/teal color scheme, data-dense UI style
+- [Phase 1]: Direct Zitadel redirect (no FiberQ landing page), role-based redirect after login
+- [Phase 1]: Bilingual interface (BG + EN) from day one
+- [Phase 1]: System preference theme (auto dark/light)
 
 ### Pending Todos
 
@@ -58,5 +62,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Roadmap created, ready to plan Phase 1
-Resume file: None
+Stopped at: Phase 1 context gathered
+Resume file: .planning/phases/01-auth-foundation-app-shell/01-CONTEXT.md
