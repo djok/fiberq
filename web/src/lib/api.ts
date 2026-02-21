@@ -33,3 +33,29 @@ export async function apiFetch<T = unknown>(
 
   return res.json() as Promise<T>;
 }
+
+/**
+ * Fetch additional user profile data from Zitadel's userinfo endpoint.
+ * Returns claims like auth_time (last login) and picture (avatar URL)
+ * that may not be in the standard OIDC session claims.
+ */
+export async function fetchUserInfo(): Promise<Record<
+  string,
+  unknown
+> | null> {
+  const session = await auth();
+  if (!session?.accessToken) return null;
+
+  const issuer = process.env.ZITADEL_ISSUER;
+  if (!issuer) return null;
+
+  try {
+    const res = await fetch(`${issuer}/oidc/v1/userinfo`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}

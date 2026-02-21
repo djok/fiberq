@@ -15,6 +15,8 @@ import { SidebarNav } from "@/components/sidebar-nav";
 import { UserNav } from "@/components/user-nav";
 
 export function AppSidebar({ session }: { session: Session }) {
+  const zitadelIssuer = process.env.ZITADEL_ISSUER;
+
   return (
     <Sidebar collapsible="icon" variant="sidebar">
       <SidebarHeader>
@@ -44,7 +46,7 @@ export function AppSidebar({ session }: { session: Session }) {
         <SidebarNav roles={session.user.roles} />
       </SidebarContent>
       <SidebarFooter>
-        <UserNav session={session} />
+        <UserNav session={session} zitadelIssuer={zitadelIssuer} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -29,10 +29,34 @@ function getInitials(name?: string | null): string {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
-export function UserNav({ session }: { session: Session }) {
+interface UserNavProps {
+  session: Session;
+  zitadelIssuer?: string;
+}
+
+export function UserNav({ session, zitadelIssuer }: UserNavProps) {
   const t = useTranslations();
   const { isMobile } = useSidebar();
   const user = session.user;
+
+  const handleSignOut = async () => {
+    const idToken = session.idToken;
+    const postLogoutUri = encodeURIComponent(window.location.origin);
+
+    // Clear local NextAuth session first
+    await signOut({ redirect: false });
+
+    // Then redirect to Zitadel to end the server session
+    if (zitadelIssuer && idToken) {
+      window.location.href = `${zitadelIssuer}/oidc/v1/end_session?id_token_hint=${idToken}&post_logout_redirect_uri=${postLogoutUri}`;
+    } else if (zitadelIssuer) {
+      // No id_token available, still redirect to end_session
+      window.location.href = `${zitadelIssuer}/oidc/v1/end_session?post_logout_redirect_uri=${postLogoutUri}`;
+    } else {
+      // Fallback: just redirect to home (will trigger re-auth)
+      window.location.href = "/";
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -90,9 +114,7 @@ export function UserNav({ session }: { session: Session }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => signOut({ callbackUrl: "/" })}
-            >
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               {t("auth.signOut")}
             </DropdownMenuItem>

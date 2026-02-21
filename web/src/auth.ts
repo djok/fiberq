@@ -155,6 +155,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // CRITICAL: This is the raw Zitadel JWT, NOT the NextAuth JWE.
       // FastAPI validates this against Zitadel's JWKS.
       session.accessToken = token.accessToken as string;
+      session.idToken = token.idToken as string;
       session.user.roles = (token.roles as string[]) ?? [];
 
       if (token.error) {
