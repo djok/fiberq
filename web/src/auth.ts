@@ -1,0 +1,167 @@
+import NextAuth from "next-auth";
+import Zitadel from "next-auth/providers/zitadel";
+
+/**
+ * Extract roles from Zitadel token claims.
+ * Matches the backend pattern in server/api/auth/zitadel.py _extract_roles().
+ *
+ * Zitadel stores roles as:
+ *   "urn:zitadel:iam:org:project:roles": { "admin": { "org_id": "..." }, ... }
+ * or with project-specific key:
+ *   "urn:zitadel:iam:org:project:{projectId}:roles": { ... }
+ */
+function extractRolesFromClaims(claims: Record<string, unknown>): string[] {
+  const roles: string[] = [];
+
+  // Standard project roles claim
+  const projectRoles = claims["urn:zitadel:iam:org:project:roles"];
+  if (projectRoles && typeof projectRoles === "object") {
+    roles.push(...Object.keys(projectRoles as Record<string, unknown>));
+  }
+
+  // Also check project-specific claims (urn:zitadel:iam:org:project:{id}:roles)
+  for (const key of Object.keys(claims)) {
+    if (
+      key.startsWith("urn:zitadel:iam:org:project:") &&
+      key.endsWith(":roles") &&
+      key !== "urn:zitadel:iam:org:project:roles"
+    ) {
+      const value = claims[key];
+      if (value && typeof value === "object") {
+        for (const role of Object.keys(value as Record<string, unknown>)) {
+          if (!roles.includes(role)) {
+            roles.push(role);
+          }
+        }
+      }
+    }
+  }
+
+  return roles;
+}
+
+/**
+ * Decode JWT payload without verification.
+ * The token was already verified by the OIDC flow -- we just need the claims.
+ */
+function decodeJwtPayload(token: string): Record<string, unknown> {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return {};
+    const payload = parts[1];
+    const decoded = Buffer.from(payload, "base64url").toString("utf-8");
+    return JSON.parse(decoded);
+  } catch {
+    return {};
+  }
+}
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  providers: [
+    Zitadel({
+      issuer: process.env.ZITADEL_ISSUER,
+      clientId: process.env.AUTH_ZITADEL_ID!,
+      clientSecret: process.env.AUTH_ZITADEL_SECRET!,
+      authorization: {
+        params: {
+          scope:
+            "openid profile email offline_access urn:zitadel:iam:org:projects:roles",
+        },
+      },
+    }),
+  ],
+  session: { strategy: "jwt" },
+  callbacks: {
+    async jwt({ token, account }) {
+      // On initial sign-in: capture raw Zitadel tokens
+      if (account) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token;
+        token.idToken = account.id_token;
+        token.expiresAt = account.expires_at;
+
+        // Extract roles from the id_token or access_token claims
+        const idClaims = account.id_token
+          ? decodeJwtPayload(account.id_token)
+          : {};
+        const accessClaims = account.access_token
+          ? decodeJwtPayload(account.access_token)
+          : {};
+
+        // Try id_token first, fall back to access_token
+        let roles = extractRolesFromClaims(idClaims);
+        if (roles.length === 0) {
+          roles = extractRolesFromClaims(accessClaims);
+        }
+        token.roles = roles;
+      }
+
+      // Silent token refresh when access_token expires
+      const expiresAt = token.expiresAt as number | undefined;
+      if (expiresAt && Date.now() / 1000 > expiresAt) {
+        try {
+          const response = await fetch(
+            `${process.env.ZITADEL_ISSUER}/oauth/v2/token`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: new URLSearchParams({
+                grant_type: "refresh_token",
+                client_id: process.env.AUTH_ZITADEL_ID!,
+                client_secret: process.env.AUTH_ZITADEL_SECRET!,
+                refresh_token: token.refreshToken as string,
+              }),
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error(`Refresh failed: ${response.status}`);
+          }
+
+          const refreshed = await response.json();
+
+          token.accessToken = refreshed.access_token;
+          token.expiresAt = Math.floor(
+            Date.now() / 1000 + refreshed.expires_in,
+          );
+          if (refreshed.refresh_token) {
+            token.refreshToken = refreshed.refresh_token;
+          }
+          if (refreshed.id_token) {
+            token.idToken = refreshed.id_token;
+          }
+
+          // Re-extract roles from refreshed token
+          const claims = decodeJwtPayload(refreshed.access_token);
+          const roles = extractRolesFromClaims(claims);
+          if (roles.length > 0) {
+            token.roles = roles;
+          }
+
+          // Clear any previous error
+          delete token.error;
+        } catch (error) {
+          console.error("Token refresh failed:", error);
+          token.error = "RefreshTokenError";
+        }
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      // Forward the RAW Zitadel access_token to the session.
+      // CRITICAL: This is the raw Zitadel JWT, NOT the NextAuth JWE.
+      // FastAPI validates this against Zitadel's JWKS.
+      session.accessToken = token.accessToken as string;
+      session.user.roles = (token.roles as string[]) ?? [];
+
+      if (token.error) {
+        session.error = token.error as string;
+      }
+
+      return session;
+    },
+  },
+});
