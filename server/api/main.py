@@ -65,7 +65,10 @@ from sync.routes import router as sync_router
 from fiber_plan.routes import router as fiber_plan_router
 from work_orders.routes import router as work_orders_router
 
+from users.routes import router as users_router
+
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(users_router, prefix="/users", tags=["users"])
 app.include_router(projects_router, prefix="/projects", tags=["projects"])
 app.include_router(sync_router, prefix="/sync", tags=["sync"])
 app.include_router(fiber_plan_router, prefix="/fiber-plan", tags=["fiber-plan"])
