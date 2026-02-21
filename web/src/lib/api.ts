@@ -3,11 +3,11 @@ import { auth } from "@/auth";
 const API_BASE = process.env.INTERNAL_API_URL || "http://api:8000";
 
 /**
- * Server-side fetch helper that forwards the raw Zitadel JWT to FastAPI.
+ * Server-side fetch helper that forwards the raw Kanidm JWT to FastAPI.
  *
- * CRITICAL: Uses session.accessToken which is the raw Zitadel-issued JWT,
+ * CRITICAL: Uses session.accessToken which is the raw Kanidm-issued JWT (ES256),
  * NOT the NextAuth encrypted session token. FastAPI validates it against
- * Zitadel's JWKS endpoint.
+ * Kanidm's JWKS endpoint.
  */
 export async function apiFetch<T = unknown>(
   path: string,
@@ -35,7 +35,7 @@ export async function apiFetch<T = unknown>(
 }
 
 /**
- * Fetch additional user profile data from Zitadel's userinfo endpoint.
+ * Fetch additional user profile data from Kanidm's userinfo endpoint.
  * Returns claims like auth_time (last login) and picture (avatar URL)
  * that may not be in the standard OIDC session claims.
  */
@@ -46,13 +46,17 @@ export async function fetchUserInfo(): Promise<Record<
   const session = await auth();
   if (!session?.accessToken) return null;
 
-  const issuer = process.env.ZITADEL_ISSUER;
-  if (!issuer) return null;
+  const kanidmUrl = process.env.KANIDM_URL;
+  const clientId = process.env.AUTH_KANIDM_ID;
+  if (!kanidmUrl || !clientId) return null;
 
   try {
-    const res = await fetch(`${issuer}/oidc/v1/userinfo`, {
-      headers: { Authorization: `Bearer ${session.accessToken}` },
-    });
+    const res = await fetch(
+      `${kanidmUrl}/oauth2/openid/${clientId}/userinfo`,
+      {
+        headers: { Authorization: `Bearer ${session.accessToken}` },
+      },
+    );
     if (!res.ok) return null;
     return res.json();
   } catch {

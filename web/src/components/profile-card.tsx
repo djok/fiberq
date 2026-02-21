@@ -38,10 +38,8 @@ export async function ProfileCard({
   const t = await getTranslations("profile");
   const tRoles = await getTranslations("roles");
 
-  const zitadelIssuer = process.env.ZITADEL_ISSUER;
-  const editProfileUrl = zitadelIssuer
-    ? `${zitadelIssuer}/ui/console/users/me`
-    : "#";
+  const kanidmUrl = process.env.KANIDM_URL;
+  const editProfileUrl = kanidmUrl ? `${kanidmUrl}/ui/profile` : "#";
 
   const lastLoginDisplay = authTime
     ? new Date(authTime * 1000).toLocaleString(locale)

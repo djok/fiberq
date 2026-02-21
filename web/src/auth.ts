@@ -1,43 +1,23 @@
 import NextAuth from "next-auth";
-import Zitadel from "next-auth/providers/zitadel";
+
+const KANIDM_ROLE_PREFIX = "fiberq_";
 
 /**
- * Extract roles from Zitadel token claims.
- * Matches the backend pattern in server/api/auth/zitadel.py _extract_roles().
- *
- * Zitadel stores roles as:
- *   "urn:zitadel:iam:org:project:roles": { "admin": { "org_id": "..." }, ... }
- * or with project-specific key:
- *   "urn:zitadel:iam:org:project:{projectId}:roles": { ... }
+ * Extract FiberQ roles from Kanidm token claims.
+ * Kanidm provides group membership in the "groups" claim when the
+ * "groups" scope is requested. Groups are returned as an array of names.
+ * We filter for groups with the "fiberq_" prefix and strip it to get roles.
  */
 function extractRolesFromClaims(claims: Record<string, unknown>): string[] {
-  const roles: string[] = [];
+  const groups = claims["groups"];
+  if (!Array.isArray(groups)) return [];
 
-  // Standard project roles claim
-  const projectRoles = claims["urn:zitadel:iam:org:project:roles"];
-  if (projectRoles && typeof projectRoles === "object") {
-    roles.push(...Object.keys(projectRoles as Record<string, unknown>));
-  }
-
-  // Also check project-specific claims (urn:zitadel:iam:org:project:{id}:roles)
-  for (const key of Object.keys(claims)) {
-    if (
-      key.startsWith("urn:zitadel:iam:org:project:") &&
-      key.endsWith(":roles") &&
-      key !== "urn:zitadel:iam:org:project:roles"
-    ) {
-      const value = claims[key];
-      if (value && typeof value === "object") {
-        for (const role of Object.keys(value as Record<string, unknown>)) {
-          if (!roles.includes(role)) {
-            roles.push(role);
-          }
-        }
-      }
-    }
-  }
-
-  return roles;
+  return groups
+    .filter(
+      (g): g is string =>
+        typeof g === "string" && g.startsWith(KANIDM_ROLE_PREFIX),
+    )
+    .map((g) => g.slice(KANIDM_ROLE_PREFIX.length));
 }
 
 /**
@@ -58,22 +38,24 @@ function decodeJwtPayload(token: string): Record<string, unknown> {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    Zitadel({
-      issuer: process.env.ZITADEL_ISSUER,
-      clientId: process.env.AUTH_ZITADEL_ID!,
-      clientSecret: process.env.AUTH_ZITADEL_SECRET!,
+    {
+      id: "kanidm",
+      name: "Kanidm",
+      type: "oidc",
+      issuer: `${process.env.KANIDM_URL}/oauth2/openid/${process.env.AUTH_KANIDM_ID}`,
+      clientId: process.env.AUTH_KANIDM_ID!,
+      clientSecret: process.env.AUTH_KANIDM_SECRET!,
       authorization: {
         params: {
-          scope:
-            "openid profile email offline_access urn:zitadel:iam:org:projects:roles",
+          scope: "openid profile email groups",
         },
       },
-    }),
+    },
   ],
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, account }) {
-      // On initial sign-in: capture raw Zitadel tokens
+      // On initial sign-in: capture raw Kanidm tokens
       if (account) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
@@ -101,7 +83,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (expiresAt && Date.now() / 1000 > expiresAt) {
         try {
           const response = await fetch(
-            `${process.env.ZITADEL_ISSUER}/oauth/v2/token`,
+            `${process.env.KANIDM_URL}/oauth2/token`,
             {
               method: "POST",
               headers: {
@@ -109,8 +91,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               },
               body: new URLSearchParams({
                 grant_type: "refresh_token",
-                client_id: process.env.AUTH_ZITADEL_ID!,
-                client_secret: process.env.AUTH_ZITADEL_SECRET!,
+                client_id: process.env.AUTH_KANIDM_ID!,
+                client_secret: process.env.AUTH_KANIDM_SECRET!,
                 refresh_token: token.refreshToken as string,
               }),
             },
@@ -151,9 +133,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      // Forward the RAW Zitadel access_token to the session.
-      // CRITICAL: This is the raw Zitadel JWT, NOT the NextAuth JWE.
-      // FastAPI validates this against Zitadel's JWKS.
+      // Forward the RAW Kanidm access_token to the session.
+      // CRITICAL: This is the raw Kanidm JWT (ES256), NOT the NextAuth JWE.
+      // FastAPI validates this against Kanidm's JWKS.
       session.accessToken = token.accessToken as string;
       session.idToken = token.idToken as string;
       session.user.roles = (token.roles as string[]) ?? [];

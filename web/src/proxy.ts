@@ -30,8 +30,8 @@ export default auth(async function proxy(request: NextRequest) {
   // auth() wraps this function and attaches the session to request.auth
   const session = (request as unknown as { auth: unknown }).auth;
   if (!session) {
-    // Redirect directly to Zitadel login (no intermediate landing page)
-    const signInUrl = new URL("/api/auth/signin/zitadel", request.url);
+    // Redirect directly to Kanidm login (no intermediate landing page)
+    const signInUrl = new URL("/api/auth/signin/kanidm", request.url);
     return NextResponse.redirect(signInUrl);
   }
 

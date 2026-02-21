@@ -2,7 +2,7 @@ import asyncpg
 from fastapi import Depends
 
 from database import get_pool
-from auth.zitadel import get_current_user, UserInfo
+from auth.kanidm import get_current_user, UserInfo
 
 
 async def get_db() -> asyncpg.Pool:

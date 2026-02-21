@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 
 from config import settings
 from database import get_pool
-from auth.zitadel import get_current_user
+from auth.kanidm import get_current_user
 from auth.models import UserInfo
 from sync.merger import merge_gpkg_to_postgis
 from sync.exporter import export_postgis_to_gpkg

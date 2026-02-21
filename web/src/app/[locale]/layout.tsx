@@ -33,7 +33,7 @@ export default async function LocaleLayout({
 
   const session = await auth();
   if (!session) {
-    redirect("/api/auth/signin/zitadel");
+    redirect("/api/auth/signin/kanidm");
   }
 
   const messages = await getMessages();

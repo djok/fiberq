@@ -6,10 +6,10 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://fiberq:fiberq@localhost:5432/fiberq"
     database_sync_url: str = "postgresql://fiberq:fiberq@localhost:5432/fiberq"
 
-    # Zitadel OIDC
-    zitadel_domain: str = ""
-    zitadel_client_id: str = ""
-    zitadel_project_id: str = ""
+    # Kanidm OIDC
+    kanidm_url: str = ""
+    kanidm_client_id: str = ""
+    kanidm_verify_tls: bool = True
 
     # API
     api_secret_key: str = "dev-secret-key"

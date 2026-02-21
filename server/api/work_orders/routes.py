@@ -3,7 +3,7 @@ import json
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query
 
 from database import get_pool
-from auth.zitadel import get_current_user
+from auth.kanidm import get_current_user
 from auth.models import UserInfo
 from auth.roles import require_engineer_or_admin, require_any_role
 from work_orders.models import (

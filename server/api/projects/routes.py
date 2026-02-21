@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from database import get_pool
-from auth.zitadel import get_current_user
+from auth.kanidm import get_current_user
 from auth.models import UserInfo
 from auth.roles import require_engineer_or_admin
 from projects.models import ProjectCreate, ProjectUpdate, ProjectOut

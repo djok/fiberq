@@ -12,6 +12,8 @@ logger = logging.getLogger("fiberq.auth")
 
 security = HTTPBearer()
 
+KANIDM_ROLE_PREFIX = "fiberq_"
+
 _jwks_cache: dict | None = None
 _openid_config_cache: dict | None = None
 
@@ -21,8 +23,8 @@ async def _get_openid_config() -> dict:
     if _openid_config_cache:
         return _openid_config_cache
 
-    url = f"https://{settings.zitadel_domain}/.well-known/openid-configuration"
-    async with httpx.AsyncClient() as client:
+    url = f"{settings.kanidm_url}/oauth2/openid/{settings.kanidm_client_id}/.well-known/openid-configuration"
+    async with httpx.AsyncClient(verify=settings.kanidm_verify_tls) as client:
         resp = await client.get(url)
         resp.raise_for_status()
         _openid_config_cache = resp.json()
@@ -36,7 +38,7 @@ async def _get_jwks() -> dict:
 
     config = await _get_openid_config()
     jwks_uri = config["jwks_uri"]
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(verify=settings.kanidm_verify_tls) as client:
         resp = await client.get(jwks_uri)
         resp.raise_for_status()
         _jwks_cache = resp.json()
@@ -51,11 +53,11 @@ def _find_key(jwks: dict, kid: str) -> dict | None:
 
 
 async def validate_token(token: str) -> dict:
-    """Validate a Zitadel OIDC Bearer token and return claims."""
-    if not settings.zitadel_domain:
+    """Validate a Kanidm OIDC Bearer token and return claims."""
+    if not settings.kanidm_url:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Zitadel not configured",
+            detail="Kanidm not configured",
         )
 
     try:
@@ -81,13 +83,22 @@ async def validate_token(token: str) -> dict:
                 detail="Token signing key not found",
             )
 
+    # Kanidm uses ES256 by default; also accept RS256 if legacy crypto is enabled
+    alg = unverified_header.get("alg", "ES256")
+    allowed_algs = ["ES256", "RS256"]
+    if alg not in allowed_algs:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Unsupported token algorithm: {alg}",
+        )
+
     try:
         claims = jwt.decode(
             token,
             key,
-            algorithms=["RS256"],
-            audience=settings.zitadel_client_id,
-            issuer=f"https://{settings.zitadel_domain}",
+            algorithms=allowed_algs,
+            audience=settings.kanidm_client_id,
+            issuer=f"{settings.kanidm_url}/oauth2/openid/{settings.kanidm_client_id}",
         )
     except JWTError as e:
         logger.warning("Token validation failed: %s", e)
@@ -100,24 +111,20 @@ async def validate_token(token: str) -> dict:
 
 
 def _extract_roles(claims: dict) -> list[str]:
-    """Extract FiberQ roles from Zitadel token claims."""
-    roles = []
+    """Extract FiberQ roles from Kanidm token claims.
 
-    # Zitadel stores project roles in urn:zitadel:iam:org:project:roles
-    project_roles = claims.get("urn:zitadel:iam:org:project:roles", {})
-    if isinstance(project_roles, dict):
-        roles.extend(project_roles.keys())
+    Kanidm provides group membership in the "groups" claim.
+    We filter for groups with the "fiberq_" prefix and strip it.
+    """
+    groups = claims.get("groups", [])
+    if not isinstance(groups, list):
+        return []
 
-    # Also check urn:zitadel:iam:org:project:{id}:roles
-    if settings.zitadel_project_id:
-        key = f"urn:zitadel:iam:org:project:{settings.zitadel_project_id}:roles"
-        project_specific = claims.get(key, {})
-        if isinstance(project_specific, dict):
-            for role in project_specific.keys():
-                if role not in roles:
-                    roles.append(role)
-
-    return roles
+    return [
+        g[len(KANIDM_ROLE_PREFIX) :]
+        for g in groups
+        if isinstance(g, str) and g.startswith(KANIDM_ROLE_PREFIX)
+    ]
 
 
 async def get_current_user(

@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException, status
 
-from auth.zitadel import get_current_user
+from auth.kanidm import get_current_user
 from auth.models import UserInfo
 
 
