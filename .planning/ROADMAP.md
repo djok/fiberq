@@ -13,8 +13,8 @@ FiberQ WebUI transforms an existing QGIS-only fiber optic management system into
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Auth Foundation & App Shell** - OIDC login, session management, role-based navigation shell, responsive layout, Docker integration
-- [ ] **Phase 2: User Management** - Admin CRUD for user accounts via Kanidm Management API
-- [ ] **Phase 3: Project Management & Assignment** - Project CRUD, user-to-project assignment with new junction table
+- [x] **Phase 2: User Management** - Admin CRUD for user accounts via Kanidm Management API
+- [x] **Phase 3: Project Management & Assignment** - Project CRUD, user-to-project assignment with new junction table
 - [ ] **Phase 4: Dashboard & Analytics** - Per-project stats and activity feed over existing data
 
 ## Phase Details
@@ -32,9 +32,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md -- Bootstrap Next.js 16 project, Auth.js + Kanidm integration, infrastructure updates (Nginx, CORS, Docker)
-- [ ] 01-02-PLAN.md -- App shell with collapsible sidebar, role-based navigation, green/teal theme, dark mode, BG/EN bilingual
-- [ ] 01-03-PLAN.md -- Profile page, placeholder pages, federated logout, end-to-end verification
+- [x] 01-01-PLAN.md -- Bootstrap Next.js 16 project, Auth.js + Kanidm integration, infrastructure updates (Nginx, CORS, Docker)
+- [x] 01-02-PLAN.md -- App shell with collapsible sidebar, role-based navigation, green/teal theme, dark mode, BG/EN bilingual
+- [x] 01-03-PLAN.md -- Profile page, placeholder pages, federated logout, end-to-end verification
 
 ### Phase 2: User Management
 **Goal**: Admins can manage the full user lifecycle from the WebUI without touching the Kanidm console
@@ -49,9 +49,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md -- FastAPI backend: Kanidm admin client, /users router, last login tracking
-- [ ] 02-02-PLAN.md -- User list page with data table, search/filters, create user dialog
-- [ ] 02-03-PLAN.md -- User detail page, actions dropdown, role editing, password reset
+- [x] 02-01-PLAN.md -- FastAPI backend: Kanidm admin client, /users router, last login tracking
+- [x] 02-02-PLAN.md -- User list page with data table, search/filters, create user dialog
+- [x] 02-03-PLAN.md -- User detail page, actions dropdown, role editing, password reset
 
 ### Phase 3: Project Management & Assignment
 **Goal**: Users can manage projects and assign team members, with visibility scoped by role and assignment
@@ -66,9 +66,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md -- Backend: project_users table, status column, role-scoped API, assignment endpoints, PostGIS extent
-- [ ] 03-02-PLAN.md -- Project list page with card grid, PostGIS mini-maps, filters, create project dialog
-- [ ] 03-03-PLAN.md -- Project detail page with interactive map, member list, inline assignment combobox, edit dialog
+- [x] 03-01-PLAN.md -- Backend: project_users table, status column, role-scoped API, assignment endpoints, PostGIS extent
+- [x] 03-02-PLAN.md -- Project list page with card grid, PostGIS mini-maps, filters, create project dialog
+- [x] 03-03-PLAN.md -- Project detail page with interactive map, member list, inline assignment combobox, edit dialog
 
 ### Phase 4: Dashboard & Analytics
 **Goal**: Project detail pages provide at-a-glance intelligence about project health and recent activity
@@ -77,10 +77,11 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Project detail page displays element counts (closures, poles, cables), team size, and last sync timestamp from existing database tables
   2. Project detail page shows an activity feed of recent actions (sync uploads, user assignments, status changes) in reverse chronological order
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md -- Backend: project_activity_log table, stats endpoint, activity feed endpoint, activity logging in mutations
+- [ ] 04-02-PLAN.md -- Frontend: stat tiles, activity timeline, page restructure, i18n
 
 ## Progress
 
@@ -90,6 +91,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation & App Shell | 3/3 | Complete | 2026-02-21 |
-| 2. User Management | 0/3 | Not started | - |
-| 3. Project Management & Assignment | 0/3 | Not started | - |
-| 4. Dashboard & Analytics | 0/1 | Not started | - |
+| 2. User Management | 3/3 | Complete | 2026-02-21 |
+| 3. Project Management & Assignment | 3/3 | Complete | 2026-02-22 |
+| 4. Dashboard & Analytics | 0/2 | Not started | - |
