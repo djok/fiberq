@@ -2,7 +2,7 @@
 
 ## Overview
 
-FiberQ WebUI transforms an existing QGIS-only fiber optic management system into a browser-accessible platform. The journey starts with solving the hardest problem first -- authentication integration between Next.js, Zitadel, and FastAPI (where all 7 critical pitfalls live). Once tokens flow correctly, we build the two features that justify the WebUI's existence: user lifecycle management (without the Zitadel console) and project-to-user assignment (without raw API calls). Finally, dashboard views aggregate existing data into actionable project intelligence.
+FiberQ WebUI transforms an existing QGIS-only fiber optic management system into a browser-accessible platform. The journey starts with solving the hardest problem first -- authentication integration between Next.js, Kanidm, and FastAPI (where all 7 critical pitfalls live). Once tokens flow correctly, we build the two features that justify the WebUI's existence: user lifecycle management (without the Kanidm console) and project-to-user assignment (without raw API calls). Finally, dashboard views aggregate existing data into actionable project intelligence.
 
 ## Phases
 
@@ -12,8 +12,8 @@ FiberQ WebUI transforms an existing QGIS-only fiber optic management system into
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Auth Foundation & App Shell** - OIDC login, session management, role-based navigation shell, responsive layout, Docker integration
-- [ ] **Phase 2: User Management** - Admin CRUD for user accounts via Zitadel Management API
+- [x] **Phase 1: Auth Foundation & App Shell** - OIDC login, session management, role-based navigation shell, responsive layout, Docker integration
+- [ ] **Phase 2: User Management** - Admin CRUD for user accounts via Kanidm Management API
 - [ ] **Phase 3: Project Management & Assignment** - Project CRUD, user-to-project assignment with new junction table
 - [ ] **Phase 4: Dashboard & Analytics** - Per-project stats and activity feed over existing data
 
@@ -24,25 +24,25 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Depends on**: Nothing (first phase)
 **Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, UIUX-01, UIUX-02
 **Success Criteria** (what must be TRUE):
-  1. User can log in via Zitadel OIDC in a browser, and a hard-refresh of a protected page renders with data (not a 401 or login redirect)
-  2. User can log out from any page and is redirected to the login screen with Zitadel session ended
-  3. User can view their own profile page showing name, email, and role (sourced from Zitadel token claims)
+  1. User can log in via Kanidm OIDC in a browser, and a hard-refresh of a protected page renders with data (not a 401 or login redirect)
+  2. User can log out from any page and is redirected to the login screen with Kanidm session ended
+  3. User can view their own profile page showing name, email, and role (sourced from Kanidm token claims)
   4. An Admin user sees the "User Management" navigation item; a Field Worker user does not
   5. The application layout renders correctly and is usable on a 768px-wide viewport (tablet)
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md -- Bootstrap Next.js 16 project, Auth.js + Zitadel integration, infrastructure updates (Nginx, CORS, Docker)
+- [ ] 01-01-PLAN.md -- Bootstrap Next.js 16 project, Auth.js + Kanidm integration, infrastructure updates (Nginx, CORS, Docker)
 - [ ] 01-02-PLAN.md -- App shell with collapsible sidebar, role-based navigation, green/teal theme, dark mode, BG/EN bilingual
 - [ ] 01-03-PLAN.md -- Profile page, placeholder pages, federated logout, end-to-end verification
 
 ### Phase 2: User Management
-**Goal**: Admins can manage the full user lifecycle from the WebUI without touching the Zitadel console
+**Goal**: Admins can manage the full user lifecycle from the WebUI without touching the Kanidm console
 **Depends on**: Phase 1
 **Requirements**: USER-01, USER-02, USER-03, USER-04, USER-05, USER-06
 **Success Criteria** (what must be TRUE):
   1. Admin can view a list of all users showing name, email, role, active/inactive status, and last login timestamp
-  2. Admin can create a new user with a role assignment, and that user can subsequently log in via Zitadel
+  2. Admin can create a new user with a role assignment, and that user can subsequently log in via Kanidm
   3. Admin can deactivate a user, and that user can no longer log in; admin can reactivate the user and login works again
   4. Admin can change a user's role, and the user's next login reflects the new role in their token claims
   5. Admin can trigger a password reset email for a user
@@ -87,7 +87,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth Foundation & App Shell | 0/3 | Planned | - |
+| 1. Auth Foundation & App Shell | 3/3 | Complete | 2026-02-21 |
 | 2. User Management | 0/2 | Not started | - |
 | 3. Project Management & Assignment | 0/2 | Not started | - |
 | 4. Dashboard & Analytics | 0/1 | Not started | - |
