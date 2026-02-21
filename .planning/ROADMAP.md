@@ -29,12 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can view their own profile page showing name, email, and role (sourced from Zitadel token claims)
   4. An Admin user sees the "User Management" navigation item; a Field Worker user does not
   5. The application layout renders correctly and is usable on a 768px-wide viewport (tablet)
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md -- Bootstrap Next.js 16 project, Auth.js + Zitadel integration, infrastructure updates (Nginx, CORS, Docker)
+- [ ] 01-02-PLAN.md -- App shell with collapsible sidebar, role-based navigation, green/teal theme, dark mode, BG/EN bilingual
+- [ ] 01-03-PLAN.md -- Profile page, placeholder pages, federated logout, end-to-end verification
 
 ### Phase 2: User Management
 **Goal**: Admins can manage the full user lifecycle from the WebUI without touching the Zitadel console
@@ -87,7 +87,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Auth Foundation & App Shell | 0/3 | Not started | - |
+| 1. Auth Foundation & App Shell | 0/3 | Planned | - |
 | 2. User Management | 0/2 | Not started | - |
 | 3. Project Management & Assignment | 0/2 | Not started | - |
 | 4. Dashboard & Analytics | 0/1 | Not started | - |
