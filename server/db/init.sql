@@ -435,3 +435,29 @@ CREATE TABLE IF NOT EXISTS user_logins (
     login_source TEXT DEFAULT 'web'
 );
 CREATE INDEX IF NOT EXISTS idx_user_logins_last ON user_logins (last_login_at);
+
+-- =============================================================================
+-- PROJECT STATUS + USER ASSIGNMENT
+-- =============================================================================
+
+-- Add status column to projects table
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'planning';
+
+-- Project-user assignment junction table
+CREATE TABLE IF NOT EXISTS project_users (
+    id SERIAL PRIMARY KEY,
+    project_id INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    user_sub TEXT NOT NULL,
+    user_display_name TEXT,
+    user_email TEXT,
+    project_role TEXT NOT NULL DEFAULT 'specialist'
+        CHECK (project_role IN ('manager', 'specialist', 'observer')),
+    assigned_at TIMESTAMPTZ DEFAULT NOW(),
+    assigned_by_sub TEXT,
+    UNIQUE (project_id, user_sub)
+);
+CREATE INDEX IF NOT EXISTS idx_project_users_project ON project_users (project_id);
+CREATE INDEX IF NOT EXISTS idx_project_users_user ON project_users (user_sub);
+
+GRANT ALL PRIVILEGES ON TABLE project_users TO fiberq;
+GRANT USAGE, SELECT ON SEQUENCE project_users_id_seq TO fiberq;

@@ -20,4 +20,5 @@ def require_role(*allowed_roles: str):
 
 require_admin = require_role("admin")
 require_engineer_or_admin = require_role("admin", "engineer")
+require_project_manager_or_admin = require_role("admin", "project_manager")
 require_any_role = require_role("admin", "engineer", "field_worker")
