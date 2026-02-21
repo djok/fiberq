@@ -5,33 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users can log in to a unified system (Kanidm), manage projects, and work with fiber optic networks -- from both QGIS and a web browser.
-**Current focus:** Phase 1 complete, ready for Phase 2
+**Current focus:** Phase 2 User Management -- backend API for user CRUD
 
 ## Current Position
 
-Phase: 1 of 4 (Auth Foundation & App Shell) -- COMPLETE
-Plan: 3 of 3 in current phase -- all done
-Status: Phase 1 complete -- Kanidm OIDC, app shell, profile, placeholder pages
-Last activity: 2026-02-21 -- Kanidm migration + plan 01-03 completed
+Phase: 2 of 4 (User Management)
+Plan: 1 of 3 in current phase -- 02-01 complete
+Status: Plan 02-01 complete -- Kanidm admin API proxy, user CRUD endpoints, login tracking
+Last activity: 2026-02-21 -- Plan 02-01 completed
 
-Progress: [███░░░░░░░] 25%
+Progress: [████░░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 8 min
-- Total execution time: 0.4 hours
+- Total plans completed: 4
+- Average duration: 7 min
+- Total execution time: 0.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 3/3 | 24 min | 8 min |
+| 02 | 1/3 | 4 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (9 min), 01-02 (5 min), 01-03 (10 min)
-- Trend: stable
+- Last 5 plans: 01-01 (9 min), 01-02 (5 min), 01-03 (10 min), 02-01 (4 min)
+- Trend: improving
 
 *Updated after each plan completion*
 
@@ -60,6 +61,9 @@ Recent decisions affecting current work:
 - [01-03]: Kanidm OIDC per-client discovery URL pattern
 - [01-03]: Simple signOut (no federated logout) -- Kanidm does not expose end_session_endpoint
 - [01-03]: Auth.js v5 signin URL must be /api/auth/signin (not /api/auth/signin/kanidm for GET)
+- [02-01]: KanidmAdminClient as plain class instantiated per-request via factory function
+- [02-01]: INTERNAL_API_URL env var for server-side auth.ts record-login call
+- [02-01]: Fire-and-forget login tracking pattern -- never blocks sign-in flow
 
 ### Pending Todos
 
@@ -69,10 +73,10 @@ None.
 
 - [Phase 1]: Auth.js v5 beta stability -- monitor
 - [Phase 1]: Zod 4 + @hookform/resolvers compatibility -- verify at project setup, fall back to Zod 3.24.x if needed
-- [Phase 2]: Kanidm API access for user management -- need to determine approach (CLI vs API vs SCIM)
+- [Phase 2]: Kanidm API access for user management -- RESOLVED: using V1 REST API with service account token
 
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-user-management/02-CONTEXT.md
+Stopped at: Completed 02-01-PLAN.md
+Resume file: .planning/phases/02-user-management/02-01-SUMMARY.md
