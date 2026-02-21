@@ -147,5 +147,26 @@
     "removeSuccess": "Членът е премахнат успешно",
     "actions": "Действия",
     "editSuccess": "Проектът е актуализиран успешно"
+  },
+  "dashboard": {
+    "closures": "Муфи",
+    "poles": "Стълбове",
+    "cables": "Кабели",
+    "cableLength": "Дължина кабели",
+    "teamSize": "Екип",
+    "lastSync": "Последен синхр.",
+    "today": "Днес",
+    "yesterday": "Вчера",
+    "loadMore": "Зареди още",
+    "noActivity": "Няма активност",
+    "noActivityDescription": "Тук ще се показва активността на проекта.",
+    "syncUpload": "{user} качи {count} обекта",
+    "memberAssigned": "{member} добавен като {role}",
+    "memberRemoved": "{member} премахнат",
+    "statusChanged": "Статус сменен от {from} на {to}",
+    "features": "обекта",
+    "unknownUser": "Система",
+    "activity": "Активност",
+    "stats": "Статистика"
   }
 }

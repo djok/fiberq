@@ -39,3 +39,26 @@ export type AssignableUser = {
   displayName: string | null;
   email: string | null;
 };
+
+export type ProjectStats = {
+  closures: number | null;
+  poles: number | null;
+  cables: number | null;
+  cableLengthM: number | null;
+  teamSize: number;
+  lastSyncAt: string | null;
+  lastSyncFeatures: number | null;
+};
+
+export type ActivityEntry = {
+  eventType: string;
+  eventAt: string;
+  userSub: string | null;
+  userDisplayName: string | null;
+  details: Record<string, unknown> | null;
+};
+
+export type ActivityPage = {
+  entries: ActivityEntry[];
+  hasMore: boolean;
+};

@@ -147,5 +147,26 @@
     "removeSuccess": "Member removed successfully",
     "actions": "Actions",
     "editSuccess": "Project updated successfully"
+  },
+  "dashboard": {
+    "closures": "Closures",
+    "poles": "Poles",
+    "cables": "Cables",
+    "cableLength": "Cable Length",
+    "teamSize": "Team Size",
+    "lastSync": "Last Sync",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "loadMore": "Load more",
+    "noActivity": "No activity yet",
+    "noActivityDescription": "Activity will appear here as the project progresses.",
+    "syncUpload": "{user} uploaded {count} features",
+    "memberAssigned": "{member} assigned as {role}",
+    "memberRemoved": "{member} removed",
+    "statusChanged": "Status changed from {from} to {to}",
+    "features": "features",
+    "unknownUser": "System",
+    "activity": "Activity",
+    "stats": "Statistics"
   }
 }
