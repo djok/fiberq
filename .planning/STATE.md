@@ -5,21 +5,21 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users can log in to a unified system (Kanidm), manage projects, and work with fiber optic networks -- from both QGIS and a web browser.
-**Current focus:** Phase 2 User Management -- COMPLETE
+**Current focus:** Phase 3 Project Management & Assignment
 
 ## Current Position
 
-Phase: 2 of 4 (User Management) -- COMPLETE
-Plan: 3 of 3 in current phase -- 02-03 complete
-Status: Phase 2 complete -- User detail page, action dialogs, edit roles, all CRUD operations
-Last activity: 2026-02-21 -- Plan 02-03 completed
+Phase: 3 of 4 (Project Management & Assignment)
+Plan: 1 of 3 in current phase -- 03-01 complete
+Status: Backend API extended with project status, assignment CRUD, PostGIS extent
+Last activity: 2026-02-22 -- Plan 03-01 completed
 
-Progress: [███████░░░] 60%
+Progress: [████████░░] 70%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 7
 - Average duration: 6 min
 - Total execution time: 0.7 hours
 
@@ -29,10 +29,11 @@ Progress: [███████░░░] 60%
 |-------|-------|-------|----------|
 | 01 | 3/3 | 24 min | 8 min |
 | 02 | 3/3 | 14 min | 5 min |
+| 03 | 1/3 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (10 min), 02-01 (4 min), 02-02 (6 min), 02-03 (4 min)
-- Trend: stable
+- Last 5 plans: 02-01 (4 min), 02-02 (6 min), 02-03 (4 min), 03-01 (2 min)
+- Trend: accelerating
 
 *Updated after each plan completion*
 
@@ -72,6 +73,10 @@ Recent decisions affecting current work:
 - [02-03]: Shared ConfirmActionDialog reused across table dropdown and detail page actions
 - [02-03]: stopPropagation on actions column cell to prevent row click navigation with dropdown
 - [02-03]: Roles card and actions card in right column sidebar layout on detail page
+- [03-01]: Denormalized user_display_name/user_email in project_users to avoid Kanidm lookups
+- [03-01]: Batch PostGIS extent via UNION ALL grouped by project_id (avoids N+1)
+- [03-01]: assignable-users from user_logins table (pragmatic shortcut, no Kanidm API call)
+- [03-01]: Upsert pattern for member assignment (ON CONFLICT DO UPDATE)
 
 ### Pending Todos
 
@@ -85,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-02-21
-Stopped at: Phase 3 planned -- 3 plans in 3 waves, verified
-Resume file: .planning/phases/03-project-management-assignment/03-01-PLAN.md
+Last session: 2026-02-22
+Stopped at: Completed 03-01-PLAN.md
+Resume file: .planning/phases/03-project-management-assignment/03-02-PLAN.md
