@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-02-21)
 
 ## Current Position
 
-Phase: 3 of 4 (Project Management & Assignment)
-Plan: 2 of 3 in current phase -- 03-02 complete
-Status: Project list page with card grid, mini-maps, filters, and create dialog
-Last activity: 2026-02-22 -- Plan 03-02 completed
+Phase: 3 of 4 (Project Management & Assignment) -- COMPLETE
+Plan: 3 of 3 in current phase -- 03-03 complete
+Status: Phase 3 complete: project CRUD, card grid with mini-maps, detail page with member management
+Last activity: 2026-02-22 -- Plan 03-03 completed
 
-Progress: [████████░░] 80%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 6 min
-- Total execution time: 0.8 hours
+- Total execution time: 0.9 hours
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [████████░░] 80%
 |-------|-------|-------|----------|
 | 01 | 3/3 | 24 min | 8 min |
 | 02 | 3/3 | 14 min | 5 min |
-| 03 | 2/3 | 7 min | 4 min |
+| 03 | 3/3 | 11 min | 4 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (6 min), 02-03 (4 min), 03-01 (2 min), 03-02 (5 min)
+- Last 5 plans: 02-03 (4 min), 03-01 (2 min), 03-02 (5 min), 03-03 (4 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -80,6 +80,10 @@ Recent decisions affecting current work:
 - [03-02]: MapLibre GL with inline OSM raster tiles for mini-maps (no external tile server)
 - [03-02]: Intersection Observer lazy loading for WebGL context limits with many project cards
 - [03-02]: canCreate derived from admin or project_manager role on server side, passed as prop
+- [03-03]: ConfirmActionDialog reused from Phase 2 users module for member removal (cross-module import)
+- [03-03]: Interactive prop on ProjectMiniMap (default false) -- detail page map has NavigationControl, card maps static
+- [03-03]: Lazy-load assignable users via server action when combobox opens (not on page load)
+- [03-03]: canManage derived from admin, global project_manager, or project-level manager role
 
 ### Pending Todos
 
@@ -94,5 +98,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 03-02-PLAN.md
-Resume file: .planning/phases/03-project-management-assignment/03-03-PLAN.md
+Stopped at: Completed 03-03-PLAN.md (Phase 3 complete)
+Resume file: .planning/phases/04-*/04-01-PLAN.md
