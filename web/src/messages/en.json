@@ -146,7 +146,12 @@
     "assignSuccess": "Member assigned successfully",
     "removeSuccess": "Member removed successfully",
     "actions": "Actions",
-    "editSuccess": "Project updated successfully"
+    "editSuccess": "Project updated successfully",
+    "deleteProject": "Delete Project",
+    "confirmDeleteTitle": "Delete Project",
+    "confirmDeleteDescription": "Are you sure you want to delete \"{name}\"? This action cannot be undone. All project data, member assignments, and activity history will be permanently removed.",
+    "deleteSuccess": "Project deleted successfully",
+    "deleteError": "Failed to delete project"
   },
   "dashboard": {
     "closures": "Closures",

@@ -92,6 +92,23 @@ export async function removeMember(
   }
 }
 
+export async function deleteProject(
+  projectId: number,
+): Promise<ActionResult> {
+  try {
+    await apiFetch(`/projects/${projectId}`, {
+      method: "DELETE",
+    });
+    revalidatePath("/[locale]/projects");
+    return { success: true, data: undefined };
+  } catch (e) {
+    return {
+      success: false,
+      error: e instanceof Error ? e.message : "Failed to delete project",
+    };
+  }
+}
+
 type ApiActivityEntry = {
   event_type: string;
   event_at: string;
