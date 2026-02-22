@@ -15,7 +15,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Auth Foundation & App Shell** - OIDC login, session management, role-based navigation shell, responsive layout, Docker integration
 - [x] **Phase 2: User Management** - Admin CRUD for user accounts via Kanidm Management API
 - [x] **Phase 3: Project Management & Assignment** - Project CRUD, user-to-project assignment with new junction table
-- [ ] **Phase 4: Dashboard & Analytics** - Per-project stats and activity feed over existing data
+- [x] **Phase 4: Dashboard & Analytics** - Per-project stats and activity feed over existing data
+- [ ] **Phase 5: Tech Debt Cleanup** - Middleware fix, dead code removal, assignable users fix, project delete UI, auth consistency
 
 ## Phase Details
 
@@ -83,14 +84,31 @@ Plans:
 - [ ] 04-01-PLAN.md -- Backend: project_activity_log table, stats endpoint, activity feed endpoint, activity logging in mutations
 - [ ] 04-02-PLAN.md -- Frontend: stat tiles, activity timeline, page restructure, i18n
 
+### Phase 5: Tech Debt Cleanup
+**Goal**: Close all tech debt items identified in the v1 milestone audit — fix middleware loading, clean dead code, improve assignable users, add missing UI and auth patterns
+**Depends on**: Phase 4
+**Requirements**: None (tech debt closure, no new requirements)
+**Gap Closure**: Closes 5 tech debt items from v1-MILESTONE-AUDIT.md
+**Success Criteria** (what must be TRUE):
+  1. Next.js middleware executes at Edge level (proxy.ts renamed to middleware.ts), protecting all routes before layout rendering
+  2. Assignable users list includes all Kanidm persons, not just those who have logged in
+  3. `server/api/dependencies.py` is deleted (dead code removed)
+  4. `dashboard/page.tsx` has an explicit `auth()` check matching per-page pattern
+  5. Admin/PM can delete a project from the project detail page with confirmation dialog
+**Plans:** 1 plan
+
+Plans:
+- [ ] 05-01-PLAN.md -- Middleware rename, dead code removal, assignable users from Kanidm, dashboard auth, project delete UI
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Auth Foundation & App Shell | 3/3 | Complete | 2026-02-21 |
 | 2. User Management | 3/3 | Complete | 2026-02-21 |
 | 3. Project Management & Assignment | 3/3 | Complete | 2026-02-22 |
-| 4. Dashboard & Analytics | 0/2 | Not started | - |
+| 4. Dashboard & Analytics | 2/2 | Complete | 2026-02-22 |
+| 5. Tech Debt Cleanup | 0/1 | Not started | - |
