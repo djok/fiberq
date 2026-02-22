@@ -23,17 +23,17 @@
 - ✓ Work orders и SMR reports — existing
 - ✓ Docker контейнеризация с Nginx reverse proxy и Cloudflare Tunnel — existing
 - ✓ Photo storage и serving — existing
+- ✓ Next.js frontend приложение с Kanidm OIDC login — Phase 1
+- ✓ 4 роли в системата: Admin, Project Manager, Designer, Field Worker — Phase 1
+- ✓ WebUI за управление на потребители (admin създава, деактивира, задава роли) — Phase 2
+- ✓ WebUI за управление на проекти (CRUD, присвояване на потребители) — Phase 3
+- ✓ WebUI dashboard за потребителите (виждат проектите си, навигират между тях) — Phase 4
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] WebUI за управление на потребители (admin създава, деактивира, задава роли)
-- [ ] WebUI за управление на проекти (CRUD, присвояване на потребители)
-- [ ] WebUI dashboard за потребителите (виждат проектите си, навигират между тях)
-- [ ] 4 роли в системата: Admin, Project Manager, Designer, Field Worker
 - [ ] QGIS плъгин auth интеграция (login с Kanidm OIDC, същият акаунт като в уеба)
-- [ ] Next.js frontend приложение с Kanidm OIDC login
 
 ### Out of Scope
 
@@ -66,10 +66,11 @@ FiberQ е brownfield проект с работещ QGIS плъгин и FastAPI
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Next.js за WebUI frontend | Потребителско предпочитание, голяма екосистема, SSR/SPA flexibility | — Pending |
+| Next.js за WebUI frontend | Потребителско предпочитание, голяма екосистема, SSR/SPA flexibility | Completed — v1 shipped |
 | Kanidm за auth | Мигриран от Zitadel, ES256 JWT, group-based roles с fiberq_ prefix | Completed |
-| 4 роли вместо 3 | Добавяне на Project Manager роля за по-фина гранулация на достъпа | — Pending |
-| v1 scope: users + projects | Фокус върху фундамента, карта и репорти в следващи milestone-и | — Pending |
+| 4 роли вместо 3 | Добавяне на Project Manager роля за по-фина гранулация на достъпа | Completed — v1 shipped |
+| v1 scope: users + projects | Фокус върху фундамента, карта и репорти в следващи milestone-и | Completed — v1 shipped |
+| Kanidm list_persons за assignable users | Замяна на user_logins таблицата с Kanidm API за пълен списък | Completed — Phase 5 |
 
 ---
-*Last updated: 2026-02-21 after initialization*
+*Last updated: 2026-02-22 after Phase 5 (v1 milestone complete)*

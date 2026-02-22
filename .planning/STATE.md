@@ -2,17 +2,17 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-21)
+See: .planning/PROJECT.md (updated 2026-02-22)
 
 **Core value:** Users can log in to a unified system (Kanidm), manage projects, and work with fiber optic networks -- from both QGIS and a web browser.
-**Current focus:** Phase 5 Tech Debt Cleanup
+**Current focus:** v1 milestone complete — all 5 phases shipped
 
 ## Current Position
 
 Phase: 5 of 5 (Tech Debt Cleanup)
 Plan: 2 of 2 in current phase -- 05-02 complete
-Status: All phases complete -- tech debt items resolved
-Last activity: 2026-02-22 -- Plan 05-02 completed
+Status: v1 milestone complete — all 5 phases shipped, verified, tech debt closed
+Last activity: 2026-02-22 -- Phase 5 complete, milestone finished
 
 Progress: [██████████] 100%
 
@@ -77,7 +77,7 @@ Recent decisions affecting current work:
 - [02-03]: Roles card and actions card in right column sidebar layout on detail page
 - [03-01]: Denormalized user_display_name/user_email in project_users to avoid Kanidm lookups
 - [03-01]: Batch PostGIS extent via UNION ALL grouped by project_id (avoids N+1)
-- [03-01]: assignable-users from user_logins table (pragmatic shortcut, no Kanidm API call)
+- [03-01]: assignable-users from user_logins table (pragmatic shortcut, no Kanidm API call) -- SUPERSEDED by Phase 5 Kanidm migration
 - [03-01]: Upsert pattern for member assignment (ON CONFLICT DO UPDATE)
 - [03-02]: MapLibre GL with inline OSM raster tiles for mini-maps (no external tile server)
 - [03-02]: Intersection Observer lazy loading for WebGL context limits with many project cards
@@ -106,12 +106,10 @@ None.
 
 ### Blockers/Concerns
 
-- [Phase 1]: Auth.js v5 beta stability -- monitor
-- [Phase 1]: Zod 4 + @hookform/resolvers compatibility -- RESOLVED: zod 3.x + @hookform/resolvers installed and working
-- [Phase 2]: Kanidm API access for user management -- RESOLVED: using V1 REST API with service account token
+None — all blockers resolved during v1 execution.
 
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 05-01-PLAN.md -- All phases and plans complete (including tech debt cleanup)
-Resume file: N/A -- All 5 phases executed
+Stopped at: v1 milestone complete — all 5 phases executed and verified
+Resume file: N/A — milestone complete, ready for /gsd:complete-milestone v1.0
