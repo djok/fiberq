@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-02-21)
 
 **Core value:** Users can log in to a unified system (Kanidm), manage projects, and work with fiber optic networks -- from both QGIS and a web browser.
-**Current focus:** Phase 4 Dashboard & Analytics
+**Current focus:** Phase 5 Tech Debt Cleanup
 
 ## Current Position
 
-Phase: 4 of 4 (Dashboard & Analytics)
-Plan: 2 of 2 in current phase -- 04-02 complete
-Status: All phases complete -- stat tiles, activity feed UI integrated into project detail page
-Last activity: 2026-02-22 -- Plan 04-02 completed
+Phase: 5 of 5 (Tech Debt Cleanup)
+Plan: 2 of 2 in current phase -- 05-02 complete
+Status: All phases complete -- tech debt items resolved
+Last activity: 2026-02-22 -- Plan 05-02 completed
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
+- Total plans completed: 13
 - Average duration: 5 min
-- Total execution time: 1.1 hours
+- Total execution time: 1.2 hours
 
 **By Phase:**
 
@@ -31,9 +31,10 @@ Progress: [██████████] 100%
 | 02 | 3/3 | 14 min | 5 min |
 | 03 | 3/3 | 11 min | 4 min |
 | 04 | 2/2 | 7 min | 4 min |
+| 05 | 2/2 | 6 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (5 min), 03-03 (4 min), 04-01 (3 min), 04-02 (4 min)
+- Last 5 plans: 03-03 (4 min), 04-01 (3 min), 04-02 (4 min), 05-01 (3 min), 05-02 (3 min)
 - Trend: stable
 
 *Updated after each plan completion*
@@ -93,6 +94,9 @@ Recent decisions affecting current work:
 - [04-02]: StatTile value accepts number | string | null for both numeric counts and relative time
 - [04-02]: getFormatter/getNow from next-intl/server for server-side relative time (avoids hydration mismatch)
 - [04-02]: Simplified Project Info card -- removed duplicate name/status already visible in header
+- [05-02]: Assignable users sourced from Kanidm list_persons with spn as user_sub (matches Auth.js sub claim)
+- [05-02]: Delete button uses same ConfirmActionDialog from users module (cross-module import pattern)
+- [05-02]: Post-delete redirect to projects list via router.push with locale prefix
 
 ### Pending Todos
 
@@ -107,5 +111,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 04-02-PLAN.md -- All phases complete
-Resume file: N/A -- All 4 phases executed
+Stopped at: Completed 05-02-PLAN.md -- All phases complete (including tech debt cleanup)
+Resume file: N/A -- All 5 phases executed
