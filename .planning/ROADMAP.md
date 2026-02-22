@@ -81,8 +81,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md -- Backend: project_activity_log table, stats endpoint, activity feed endpoint, activity logging in mutations
-- [ ] 04-02-PLAN.md -- Frontend: stat tiles, activity timeline, page restructure, i18n
+- [x] 04-01-PLAN.md -- Backend: project_activity_log table, stats endpoint, activity feed endpoint, activity logging in mutations
+- [x] 04-02-PLAN.md -- Frontend: stat tiles, activity timeline, page restructure, i18n
 
 ### Phase 5: Tech Debt Cleanup
 **Goal**: Close all tech debt items identified in the v1 milestone audit — fix middleware loading, clean dead code, improve assignable users, add missing UI and auth patterns
@@ -95,10 +95,11 @@ Plans:
   3. `server/api/dependencies.py` is deleted (dead code removed)
   4. `dashboard/page.tsx` has an explicit `auth()` check matching per-page pattern
   5. Admin/PM can delete a project from the project detail page with confirmation dialog
-**Plans:** 1 plan
+**Plans:** 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md -- Middleware rename, dead code removal, assignable users from Kanidm, dashboard auth, project delete UI
+- [ ] 05-01-PLAN.md -- Middleware rename, dead code removal, dashboard auth check
+- [ ] 05-02-PLAN.md -- Assignable users from Kanidm, project delete UI with confirmation
 
 ## Progress
 
@@ -111,4 +112,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. User Management | 3/3 | Complete | 2026-02-21 |
 | 3. Project Management & Assignment | 3/3 | Complete | 2026-02-22 |
 | 4. Dashboard & Analytics | 2/2 | Complete | 2026-02-22 |
-| 5. Tech Debt Cleanup | 0/1 | Not started | - |
+| 5. Tech Debt Cleanup | 0/2 | Not started | - |
