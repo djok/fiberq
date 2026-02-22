@@ -2,12 +2,14 @@ import json
 import logging
 from datetime import datetime
 
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from database import get_pool
 from auth.kanidm import get_current_user
 from auth.models import UserInfo
 from auth.roles import require_project_manager_or_admin
+from users.kanidm_client import KanidmAdminClient
 from projects.models import (
     ActivityEntry,
     ActivityPage,
@@ -25,6 +27,11 @@ from projects.models import (
 logger = logging.getLogger("fiberq.projects")
 
 router = APIRouter()
+
+
+def _get_kanidm_client() -> KanidmAdminClient:
+    """Factory for Kanidm admin API client."""
+    return KanidmAdminClient()
 
 # Infrastructure tables used for PostGIS extent computation
 _INFRA_TABLES = [
@@ -634,17 +641,33 @@ async def list_assignable_users(
     # Permission check
     await _check_project_manager_permission(project_id, user)
 
-    pool = get_pool()
-    rows = await pool.fetch(
-        """SELECT user_sub, username as display_name, NULL as email
-           FROM user_logins
-           ORDER BY username"""
-    )
-    return [
-        {
-            "user_sub": r["user_sub"],
-            "display_name": r["display_name"],
-            "email": r["email"],
-        }
-        for r in rows
-    ]
+    kanidm = _get_kanidm_client()
+
+    try:
+        persons = await kanidm.list_persons()
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(status_code=502, detail=f"Identity service error: {e}")
+
+    users = []
+    for person in persons:
+        attrs = person.get("attrs", {})
+        username = (attrs.get("name") or [""])[0]
+        classes = attrs.get("class", [])
+
+        # Filter out service accounts and system entries
+        if "service_account" in classes:
+            continue
+        if username in ("anonymous",) or username.startswith("admin@"):
+            continue
+
+        user_sub = (attrs.get("spn") or [""])[0]
+        display_name = (attrs.get("displayname") or [""])[0]
+        email = (attrs.get("mail") or [None])[0]
+
+        users.append({
+            "user_sub": user_sub,
+            "display_name": display_name,
+            "email": email,
+        })
+
+    return users
