@@ -94,6 +94,8 @@ Recent decisions affecting current work:
 - [04-02]: StatTile value accepts number | string | null for both numeric counts and relative time
 - [04-02]: getFormatter/getNow from next-intl/server for server-side relative time (avoids hydration mismatch)
 - [04-02]: Simplified Project Info card -- removed duplicate name/status already visible in header
+- [05-01]: No code changes to middleware logic -- rename only to satisfy Next.js convention
+- [05-01]: Dashboard auth guard is consistency fix, not security fix (layout already protects)
 - [05-02]: Assignable users sourced from Kanidm list_persons with spn as user_sub (matches Auth.js sub claim)
 - [05-02]: Delete button uses same ConfirmActionDialog from users module (cross-module import pattern)
 - [05-02]: Post-delete redirect to projects list via router.push with locale prefix
@@ -111,5 +113,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 05-02-PLAN.md -- All phases complete (including tech debt cleanup)
+Stopped at: Completed 05-01-PLAN.md -- All phases and plans complete (including tech debt cleanup)
 Resume file: N/A -- All 5 phases executed
