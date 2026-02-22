@@ -1,4 +1,6 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -14,6 +16,11 @@ export default async function DashboardPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+
+  const session = await auth();
+  if (!session) {
+    redirect(`/${locale}/api/auth/signin`);
+  }
 
   const tNav = await getTranslations("nav");
   const tPlaceholder = await getTranslations("placeholder");
