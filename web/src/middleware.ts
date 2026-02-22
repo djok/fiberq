@@ -7,13 +7,13 @@ import type { NextRequest } from "next/server";
 const intlMiddleware = createIntlMiddleware(routing);
 
 /**
- * Next.js 16 proxy: composes auth check THEN i18n routing.
+ * Next.js 16 middleware: composes auth check THEN i18n routing.
  *
  * CRITICAL ordering: Auth check runs BEFORE i18n middleware.
  * If reversed, unauthenticated users get locale-redirected instead of
  * login-redirected, causing redirect loops (Pitfall #7).
  */
-export default auth(async function proxy(request: NextRequest) {
+export default auth(async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip auth for NextAuth API routes (callbacks, signin, signout)
